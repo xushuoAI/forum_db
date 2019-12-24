@@ -5,9 +5,9 @@ import org.dgut.community.entity.UserFollow;
 public interface IFollow {
     UserFollow findById(Long id);
 
-    UserFollow deleteById(Long id);
+    String deleteById(Long id);
 
     UserFollow updateById(Long id);
 
-    UserFollow save();
+    UserFollow save(UserFollow userFollow);
 }

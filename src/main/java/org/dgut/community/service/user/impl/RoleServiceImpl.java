@@ -29,7 +29,7 @@ public class RoleServiceImpl implements IRole {
     }
 
     @Override
-    public Role save() {
-        return null;
+    public Role save(Role role) {
+        return roleRepository.save(role);
     }
 }

@@ -1,8 +1,8 @@
-package org.dgut.community.controller.article;
+package org.dgut.community.controller.news;
 
-import org.dgut.community.entity.ArticleComment;
 import org.dgut.community.entity.ArticleReply;
-import org.dgut.community.service.article.impl.ReplyServiceImpl;
+import org.dgut.community.entity.NewsReply;
+import org.dgut.community.service.news.impl.NewsReplyServiceImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -12,17 +12,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/articleReply")
-public class ReplyController {
-    private ReplyServiceImpl service;
+@RequestMapping("/newsReply")
+public class NewsReplyController {
+    private NewsReplyServiceImpl service;
     private Map<String, Object> map = new HashMap<String, Object>();
 
-    public ReplyController(ReplyServiceImpl service) {
+    public NewsReplyController(NewsReplyServiceImpl service) {
         this.service = service;
     }
 
     @PostMapping("/intercept/save/{commentId}")
-    public ArticleReply save(@PathVariable Long commentId, @RequestBody ArticleReply entity){
+    public NewsReply save(@PathVariable Long commentId, @RequestBody NewsReply entity){
         return service.save(commentId, entity);
     }
 
@@ -34,7 +34,7 @@ public class ReplyController {
     }
 
     @GetMapping("/findByCommentId/{commentId}")
-    public Page<ArticleReply> findByCommentId(@PathVariable Long commentId, @RequestParam int num, @RequestParam(defaultValue = "15") int size){
+    public Page<NewsReply> findByCommentId(@PathVariable Long commentId, @RequestParam int num, @RequestParam(defaultValue = "15") int size){
         Pageable pageable = PageRequest.of(num, size);
         return service.findByCommentId(commentId, pageable);
     }

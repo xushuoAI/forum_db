@@ -1,13 +1,16 @@
 package org.dgut.community.service.article;
 
 import org.dgut.community.entity.ArticleReply;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface IReply {
+
+    Page<ArticleReply> findByCommentId(Long commentId, Pageable pageable);
+
     ArticleReply findById(Long id);
 
-    ArticleReply deleteById(Long id);
+    String deleteById(Long id);
 
-    ArticleReply updateById(Long id);
-
-    ArticleReply save();
+    ArticleReply save(Long id, ArticleReply articleReply);
 }

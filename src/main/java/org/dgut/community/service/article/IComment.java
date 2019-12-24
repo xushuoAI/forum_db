@@ -1,13 +1,18 @@
 package org.dgut.community.service.article;
 
 import org.dgut.community.entity.ArticleComment;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface IComment {
-    ArticleComment findById(Long id);
 
-    ArticleComment deleteById(Long id);
+    Page<ArticleComment> findByArticleId(Long articleId, Pageable pageable);
 
-    ArticleComment updateById(Long id);
+    ArticleComment updateLike(Long id, int num);
 
-    ArticleComment save();
+    ArticleComment updateTop(Long id, int num);
+
+    String deleteById(Long id);
+
+    ArticleComment save(Long articleId, ArticleComment articleComment);
 }

@@ -1,13 +1,24 @@
 package org.dgut.community.service.article;
 
 import org.dgut.community.entity.FourmArticle;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 public interface IFourm {
-    FourmArticle findById(Long id);
+    Page<FourmArticle> findByArticleContentLike(String articleContent, Pageable pageable);
 
-    FourmArticle deleteById(Long id);
+    Page<FourmArticle> findAll(Pageable pageable);
 
-    FourmArticle updateById(Long id);
+    Page<FourmArticle> findByUserId(Long id, Pageable pageable);
 
-    FourmArticle save();
+    String deleteById(Long id);
+
+    FourmArticle updateById(Long id, FourmArticle newFourmArticle);
+
+    FourmArticle updateLike(Long id, int num);
+
+    FourmArticle save(FourmArticle fourmArticle, Long id, MultipartFile file);
 }

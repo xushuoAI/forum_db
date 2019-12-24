@@ -19,17 +19,23 @@ public class ReportServiceImpl implements IReport {
     }
 
     @Override
-    public Report deleteById(Long id) {
-        return null;
+    public String deleteById(Long id) {
+        return reportRepository.findById(id).map(report -> {
+            reportRepository.delete(report);
+            return "删除成功";
+        }).orElseThrow(()-> new RuntimeException("未找到该举报信息"));
     }
 
     @Override
     public Report updateById(Long id) {
-        return null;
+        return reportRepository.findById(id).map(report -> {
+            report.setReprtManage(1);
+            return reportRepository.save(report);
+        }).orElseThrow(()-> new RuntimeException("未找到该举报信息"));
     }
 
     @Override
-    public Report save() {
-        return null;
+    public Report save(Report report) {
+        return reportRepository.save(report);
     }
 }

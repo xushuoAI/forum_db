@@ -7,7 +7,9 @@ public interface IAdmin {
 
     Admin deleteById(Long id);
 
-    Admin updateById(Long id);
+    Admin updateById(Long id, Admin admin);
 
-    Admin save();
+    Admin save(Admin admin);
+
+    Admin login(String name, String password);
 }

@@ -9,5 +9,5 @@ public interface IRole {
 
     Role updateById(Long id);
 
-    Role save();
+    Role save(Role role);
 }

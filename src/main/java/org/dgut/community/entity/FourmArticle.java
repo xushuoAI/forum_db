@@ -1,14 +1,21 @@
 package org.dgut.community.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Table
-@Data
-public class FourmArticle {
+@Getter
+@Setter
+public class FourmArticle implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long articleId;
@@ -17,8 +24,10 @@ public class FourmArticle {
     @Column(columnDefinition = "text", nullable = false)
     private String articleContent;
 
-    @Column(nullable = false)
-    private Long userId;
+//    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "userId")
+    private User user;
 
     private LocalDate articlePublicTime;
 
@@ -29,4 +38,8 @@ public class FourmArticle {
     private String articlePhoto;
 
     private int articleCommentTimes;
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "article")
+    private Set<ArticleComment> comments;
 }
