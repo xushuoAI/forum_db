@@ -5,8 +5,9 @@ POST  http://web.springboot.cn/user/save
 Content-Type: application/json
 
 {
-  "userName": "张三",
-  "userPassword": "123456"
+  "userName": "lisi",
+  "userPassword": "123456",
+  "userHeadImg": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAANpSURBVDjLfdPdb1N1AMbx5/ScvtHTZbSwDcrWlXXIUOdkZiRmioQXSYgX82p4YUKMkJjswpkRjCJckUWDhBCZGoJhYrwYMIUQzbhReZOZLtvqateVg"
 }
 
 ###
@@ -19,6 +20,18 @@ Content-Type: application/json
   "userName": "张三",
   "userPassword": "123456"
 }
+
+###
+根据用户id修改名字和头像，都可以为空
+###
+PUT http://web.springboot.cn/user/intercept/updateById/1
+Content-Type: application/json
+
+{
+  "userName": "",
+  "userHeadImg": ""
+}
+
 
 ###
 根据用户名查找用户

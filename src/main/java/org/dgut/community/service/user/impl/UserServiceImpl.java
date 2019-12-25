@@ -45,8 +45,16 @@ public class UserServiceImpl implements IUser {
 //            user.setUserFocus(newUser.getUserFocus());
 //            user.setUserFollow(newUser.getUserFollow());
 //            user.setUserHeadImg(newUser.getUserHeadImg());
-            if (newUser.getUserHeadImg() != null){
+            if (newUser.getUserName() != ""){
+                if (userRepository.findByUserName(newUser.getUserName()) != null){
+                    throw new NotFoundException("该用户已存在");
+                }
+                user.setUserName(newUser.getUserName());
+            }
+            if (newUser.getUserHeadImg() != ""){
                 user.setUserHeadImg(Util.uploadBase64Image(user.getUserName(), newUser.getUserHeadImg()));
+            }else {
+                user.setUserHeadImg(Util.getUrl() + "abc.jpg");
             }
 //            user.setUserName(newUser.getUserName());
             user = userRepository.save(user);
