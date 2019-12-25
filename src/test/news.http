@@ -1,1 +1,14 @@
 POST  http://web.springboot.cn/news/intercept/save/2
+Content-Type: application/json
+
+{
+  "newsTitle": "abc",
+  "newsContent": "老师的看法是劳动纠纷拉萨的简历发送到开发拉萨路附近受到了会计法律上的解放路口的设计费拉数据等法律上的风科技第十六届第十六届",
+  "newsPicture": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAANpSURBVDjLfdPdb1N1AMbx5/ScvtHTZbSwDcrWlXXIUOdkZiRmioQXSYgX82p4YUKMkJjswpkRjCJckUWDhBCZGoJhYrwYMIUQzbhReZOZLtvqateVg"
+}
+
+###
+
+DELETE http://web.springboot.cn/news/intercept/deleteById/1
+
+###

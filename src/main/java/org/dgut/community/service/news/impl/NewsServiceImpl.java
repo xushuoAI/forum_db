@@ -103,7 +103,9 @@ public class NewsServiceImpl implements INews {
                     return newsRepository.save(news);
                 }
                 news.setNewsLike(news.getNewsLike() - 1);
-                return newsRepository.save(news);
+                News news1 = newsRepository.save(news);
+                news1.getUser().setUserPassword(null);
+                return news1;
             }
         }).orElseThrow(() -> new NotFoundException("没有该新闻"));
     }
@@ -118,7 +120,9 @@ public class NewsServiceImpl implements INews {
                     news.setNewsCollect(news.getNewsCollect() - 1);
                 }
             }
-            return newsRepository.save(news);
+            News news1 = newsRepository.save(news);
+            news1.getUser().setUserPassword(null);
+            return news1;
         }).orElseThrow(()-> new NotFoundException("没有该新闻"));
     }
 
@@ -128,7 +132,9 @@ public class NewsServiceImpl implements INews {
             news.setNewsContent(newNews.getNewsContent());
 //            news.setNewsPicture(newNews.getNewsPicture());
             news.setNewsTitle(newNews.getNewsTitle());
-            return newsRepository.save(news);
+            News news1 = newsRepository.save(news);
+            news1.getUser().setUserPassword(null);
+            return news1;
         }).orElseThrow(() -> new NotFoundException("没有该id"));
     }
 
@@ -136,7 +142,9 @@ public class NewsServiceImpl implements INews {
     public News updateViewTimes(Long id) {
         return newsRepository.findById(id).map(news -> {
             news.setNewsViewTimes(news.getNewsViewTimes() + 1);
-            return newsRepository.save(news);
+            News news1 = newsRepository.save(news);
+            news1.getUser().setUserPassword(null);
+            return news1;
         }).orElseThrow(()-> new NotFoundException("没有该新闻"));
     }
 
@@ -154,7 +162,7 @@ public class NewsServiceImpl implements INews {
             news.setPublicTime(LocalDate.parse(Util.getTime()));
             news.setUser(user);
             News news1 = newsRepository.save(news);
-//            news1.getUser().setUserPassword(null);
+            news1.getUser().setUserPassword(null);
             return news1;
         }).orElseThrow(() -> new NotFoundException("没有该Id"));
     }
