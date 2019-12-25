@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 /**
  * Created by limi on 2017/10/15.
  */
-//@Configuration
+@Configuration
 public class WebConfig extends WebMvcConfigurationSupport {
 
     @Override
