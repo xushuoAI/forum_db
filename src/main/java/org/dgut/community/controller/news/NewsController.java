@@ -25,7 +25,7 @@ public class NewsController {
     }
 
     @PostMapping("/intercept/save/{id}")
-    public News save(News entity, @PathVariable Long id){
+    public News save(@RequestBody News entity, @PathVariable Long id){
         return service.save(entity, id);
     }
 
