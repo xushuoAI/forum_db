@@ -4,6 +4,7 @@ import org.dgut.community.entity.FourmArticle;
 import org.dgut.community.entity.User;
 import org.dgut.community.service.user.impl.UserServiceImpl;
 import org.dgut.community.util.Util;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,8 +25,8 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public Map login(String name, String password, HttpSession session){
-        User user = service.login(name, password);
+    public Map login(@RequestBody User user, HttpSession session){
+        user = service.login(user.getUserName(), user.getUserPassword());
         if (user != null){
             map.clear();
             user.setUserPassword(null);
@@ -46,14 +47,24 @@ public class UserController {
         return map;
     }
 
-    @PostMapping("/save")
-    public User save(User entity,  MultipartFile file){
-        return service.save(entity, file);
+    @GetMapping("/findByUserName")
+    public User findByUserName(@RequestBody User user){
+        return service.findByUserName(user.getUserName());
     }
 
-    @PutMapping("/updateById/{id}")
+    @PostMapping("/save")
+    public User save(@RequestBody User entity){
+        return service.save(entity);
+    }
+
+    @PutMapping("/intercept/updateById/{id}")
     public User updateById(@PathVariable Long id, @RequestBody User newUser){
         return service.updateById(id, newUser);
+    }
+
+    @PutMapping("/intercept/updatePassword/{id}")
+    public ResponseEntity<User> updatePassword(@PathVariable Long id, @RequestBody User newUser){
+        return service.updatePassword(id, newUser);
     }
 
     @DeleteMapping("/intercept/deleteById/{id}")

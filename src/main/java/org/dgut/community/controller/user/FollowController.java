@@ -1,10 +1,16 @@
 package org.dgut.community.controller.user;
 
+import org.dgut.community.entity.FourmArticle;
+import org.dgut.community.entity.User;
 import org.dgut.community.entity.UserFollow;
 import org.dgut.community.service.user.impl.FollowServiceImpl;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -27,6 +33,18 @@ public class FollowController {
         map.clear();
         map.put("message", service.deleteById(followId));
         return map;
+    }
+
+    @GetMapping("/intercept/findFans/{starId}")
+    public List<User> findFans(@PathVariable Long starId, @RequestParam(defaultValue = "0") int num, @RequestParam(defaultValue = "15") int size){
+        Pageable pageable = PageRequest.of(num, size);
+        return service.findByFansId(starId, pageable);
+    }
+
+    @GetMapping("/intercept/findUser/{fansId}")
+    public List<User> findUser(@PathVariable Long fansId, @RequestParam(defaultValue = "0") int num, @RequestParam(defaultValue = "15") int size){
+        Pageable pageable = PageRequest.of(num, size);
+        return service.findByStarId(fansId, pageable);
     }
 
 }

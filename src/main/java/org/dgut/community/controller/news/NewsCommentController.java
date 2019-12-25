@@ -44,7 +44,7 @@ public class NewsCommentController {
     }
 
     @GetMapping("/findByNewsId/{newsId}")
-    public Page<NewsComment> findByNewsId(@PathVariable Long newsId, @RequestParam int num, @RequestParam(defaultValue = "15") int size){
+    public Page<NewsComment> findByNewsId(@PathVariable Long newsId, @RequestParam(defaultValue = "0") int num, @RequestParam(defaultValue = "15") int size){
         Pageable pageable = PageRequest.of(num, size);
         return service.findByNewsId(newsId, pageable);
     }

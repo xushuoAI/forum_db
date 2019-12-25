@@ -23,24 +23,24 @@ public class FourmController {
     }
 
     @PostMapping("/intercept/save/{id}")
-    public FourmArticle save(FourmArticle entity, @PathVariable Long id, MultipartFile file){
-        return service.save(entity, id, file);
+    public FourmArticle save(@RequestBody FourmArticle entity, @PathVariable Long id){
+        return service.save(entity, id);
     }
 
     @GetMapping("/findAll")
-    public Page<FourmArticle> findAll(@RequestParam int num, @RequestParam(defaultValue = "15") int size){
+    public Page<FourmArticle> findAll(@RequestParam(defaultValue = "0") int num, @RequestParam(defaultValue = "15") int size){
         Pageable pageable = PageRequest.of(num, size);
         return service.findAll(pageable);
     }
 
     @GetMapping("/findByContent")
-    public Page<FourmArticle> findByContent(String articleContent, @RequestParam int num, @RequestParam(defaultValue = "15") int size){
+    public Page<FourmArticle> findByContent(@RequestBody FourmArticle fourmArticle, @RequestParam(defaultValue = "0") int num, @RequestParam(defaultValue = "15") int size){
         Pageable pageable = PageRequest.of(num, size);
-        return service.findByArticleContentLike(articleContent, pageable);
+        return service.findByArticleContentLike(fourmArticle.getArticleContent(), pageable);
     }
 
     @GetMapping("/findByUserId/{userId}")
-    public Page<FourmArticle> findByUserId(@PathVariable Long userId, @RequestParam int num, @RequestParam(defaultValue = "15") int size){
+    public Page<FourmArticle> findByUserId(@PathVariable Long userId, @RequestParam(defaultValue = "0") int num, @RequestParam(defaultValue = "15") int size){
         Pageable pageable = PageRequest.of(num, size);
         return service.findByUserId(userId, pageable);
     }

@@ -1,5 +1,6 @@
 package org.dgut.community.service.user.impl;
 
+import org.dgut.community.NotFoundException;
 import org.dgut.community.entity.Admin;
 import org.dgut.community.repository.user.AdminRepository;
 import org.dgut.community.service.user.IAdmin;
@@ -36,7 +37,7 @@ public class AdminServiceImpl implements IAdmin {
             admin = adminRepository.save(admin);
             admin.setAdminPassword(null);
             return admin;
-        }).orElseThrow(()-> new RuntimeException("没有该id"));
+        }).orElseThrow(()-> new NotFoundException("没有该id"));
     }
 
     @Override

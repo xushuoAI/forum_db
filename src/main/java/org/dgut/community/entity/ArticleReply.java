@@ -27,7 +27,7 @@ public class ArticleReply implements Serializable {
     private String replyContent;
 
     @JsonIgnore
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "commentId")
     private ArticleComment comment;
 }

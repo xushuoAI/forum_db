@@ -1,11 +1,13 @@
 package org.dgut.community.service.news.impl;
 
+import org.dgut.community.NotFoundException;
 import org.dgut.community.entity.NewsReply;
 import org.dgut.community.repository.news.NewsCommentRepository;
 import org.dgut.community.repository.news.NewsReplyRepository;
 import org.dgut.community.service.news.INewsReply;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -29,16 +31,16 @@ public class NewsReplyServiceImpl implements INewsReply {
     }
 
     @Override
-    public String deleteById(Long id) {
+    public ResponseEntity<?> deleteById(Long id) {
         return newsReplyRepository.findById(id).map(newsReply -> {
             return commentRepository.findById(newsReply.getComment().getNewsCommentId()).map(newsComment -> {
                 newsComment.setNewsCommentReply(newsComment.getNewsCommentReply() - 1);
                 commentRepository.save(newsComment);
                 newsReply.setComment(null);
                 newsReplyRepository.delete(newsReply);
-                return "删除成功";
-            }).orElseThrow(()-> new RuntimeException("没有该评论"));
-        }).orElseThrow(()-> new RuntimeException("没有该回复"));
+                return ResponseEntity.ok().build();
+            }).orElseThrow(()-> new NotFoundException("没有该评论"));
+        }).orElseThrow(()-> new NotFoundException("没有该回复"));
     }
 
     @Override
@@ -53,6 +55,6 @@ public class NewsReplyServiceImpl implements INewsReply {
             commentRepository.save(newsComment);
             newsReply.setComment(newsComment);
             return newsReplyRepository.save(newsReply);
-        }).orElseThrow(()-> new RuntimeException("没有该评论"));
+        }).orElseThrow(()-> new NotFoundException("没有该评论"));
     }
 }

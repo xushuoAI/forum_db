@@ -3,6 +3,7 @@ package org.dgut.community.service.news;
 import org.dgut.community.entity.News;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public interface INews {
 
     Page<News> findByUser_userId(Long id, Pageable pageable);
 
-    String deleteById(Long id);
+    ResponseEntity<?> deleteById(Long id);
 
     News updateLike(Long id, int num);
 
@@ -24,5 +25,5 @@ public interface INews {
 
     News updateViewTimes(Long id);
 
-    News save(News news, Long id, MultipartFile file);
+    News save(News news, Long id);
 }

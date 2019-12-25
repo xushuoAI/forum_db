@@ -1,5 +1,6 @@
 package org.dgut.community.service.news.impl;
 
+import org.dgut.community.NotFoundException;
 import org.dgut.community.entity.NewsComment;
 import org.dgut.community.repository.news.NewsCommentRepository;
 import org.dgut.community.repository.news.NewsRepository;
@@ -7,6 +8,7 @@ import org.dgut.community.service.news.INewsComment;
 import org.dgut.community.util.Util;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -27,12 +29,12 @@ public class NewsCommentServiceImpl implements INewsComment {
     }
 
     @Override
-    public String deleteById(Long id) {
+    public ResponseEntity<?> deleteById(Long id) {
         return newsCommentRepository.findById(id).map(newsComment -> {
             newsComment.setNews(null);
             newsCommentRepository.delete(newsComment);
-            return "删除成功";
-        }).orElseThrow(()-> new RuntimeException("没有该帖子"));
+            return ResponseEntity.ok().build();
+        }).orElseThrow(()-> new NotFoundException("没有该帖子"));
     }
 
     @Override
@@ -48,7 +50,7 @@ public class NewsCommentServiceImpl implements INewsComment {
                 newsComment.setNewsCommentLike(newsComment.getNewsCommentLike() - 1);
                 return newsCommentRepository.save(newsComment);
             }
-        }).orElseThrow(()-> new RuntimeException("没有该评论"));
+        }).orElseThrow(()-> new NotFoundException("没有该评论"));
     }
 
     @Override
@@ -60,7 +62,7 @@ public class NewsCommentServiceImpl implements INewsComment {
                 newsComment.setToTop(0);
             }
             return newsCommentRepository.save(newsComment);
-        }).orElseThrow(()-> new RuntimeException("没有该评论"));
+        }).orElseThrow(()-> new NotFoundException("没有该评论"));
     }
 
     @Override
@@ -69,6 +71,6 @@ public class NewsCommentServiceImpl implements INewsComment {
             newsComment.setNews(news);
             newsComment.setNewsCommentCreateTime(LocalDate.parse(Util.getTime()));
             return newsCommentRepository.save(newsComment);
-        }).orElseThrow(()-> new RuntimeException("没有该新闻"));
+        }).orElseThrow(()-> new NotFoundException("没有该新闻"));
     }
 }

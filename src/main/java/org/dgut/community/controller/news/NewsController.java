@@ -6,6 +6,7 @@ import org.dgut.community.service.news.impl.NewsServiceImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,8 +25,8 @@ public class NewsController {
     }
 
     @PostMapping("/intercept/save/{id}")
-    public News save(News entity, @PathVariable Long id, MultipartFile file){
-        return service.save(entity, id, file);
+    public News save(News entity, @PathVariable Long id){
+        return service.save(entity, id);
     }
 
     @DeleteMapping("/intercept/deleteById/{id}")
@@ -56,19 +57,19 @@ public class NewsController {
     }
 
     @GetMapping("/findByTitleOrContent")
-    public Page<News> findByTitleOrContent(String like, @RequestParam int num, @RequestParam(defaultValue = "15") int size){
+    public Page<News> findByTitleOrContent(@RequestBody News news, @RequestParam int num, @RequestParam(defaultValue = "15") int size){
         Pageable pageable = PageRequest.of(num, size);
-        return service.findByNewsContentLikeOrNewsTitleLike(like, pageable);
+        return service.findByNewsContentLikeOrNewsTitleLike(news.getNewsTitle(), pageable);
     }
 
     @GetMapping("/findAll")
-    public Page<News> findAll(@RequestParam int num, @RequestParam(defaultValue = "15") int size){
+    public Page<News> findAll(@RequestParam(defaultValue = "0") int num, @RequestParam(defaultValue = "15") int size){
         Pageable pageable = PageRequest.of(num, size);
         return service.findAll(pageable);
     }
 
     @GetMapping("/findByUserId/{userId}")
-    public Page<News> findByUserId(@PathVariable Long userId, @RequestParam int num, @RequestParam(defaultValue = "15") int size){
+    public Page<News> findByUserId(@PathVariable Long userId, @RequestParam(defaultValue = "0") int num, @RequestParam(defaultValue = "15") int size){
         Pageable pageable = PageRequest.of(num, size);
         return service.findByUser_userId(userId, pageable);
     }

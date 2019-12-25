@@ -25,7 +25,7 @@ public class FourmArticle implements Serializable {
     private String articleContent;
 
 //    @JsonIgnore
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "userId")
     private User user;
 

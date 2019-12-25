@@ -1,5 +1,6 @@
 package org.dgut.community.service.article.impl;
 
+import org.dgut.community.NotFoundException;
 import org.dgut.community.entity.ArticleReply;
 import org.dgut.community.repository.article.CommentRepository;
 import org.dgut.community.repository.article.FourmRepository;
@@ -7,6 +8,7 @@ import org.dgut.community.repository.article.ReplyRepository;
 import org.dgut.community.service.article.IReply;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -32,7 +34,7 @@ public class ReplyServiceImpl implements IReply {
     }
 
     @Override
-    public String deleteById(Long id) {
+    public ResponseEntity<?> deleteById(Long id) {
         return replyRepository.findById(id).map(articleReply -> {
             return commentRepository.findById(articleReply.getComment().getCommentId()).map(articleComment -> {
                 fourmRepository.findById(articleComment.getArticle().getArticleId()).map(fourmArticle -> {
@@ -41,12 +43,12 @@ public class ReplyServiceImpl implements IReply {
                     fourmRepository.save(fourmArticle);
                     commentRepository.save(articleComment);
                     return replyRepository.save(articleReply);
-                }).orElseThrow(() -> new RuntimeException("没有该帖子"));
+                }).orElseThrow(() -> new NotFoundException("没有该帖子"));
                 articleReply.setComment(null);
                 replyRepository.delete(articleReply);
-                return "删除成功";
-            }).orElseThrow(() -> new RuntimeException("没有该评论"));
-        }).orElseThrow(() -> new RuntimeException("没有该评论"));
+                return ResponseEntity.ok().build();
+            }).orElseThrow(() -> new NotFoundException("没有该评论"));
+        }).orElseThrow(() -> new NotFoundException("没有该评论"));
     }
 
     @Override
@@ -60,7 +62,7 @@ public class ReplyServiceImpl implements IReply {
                 replyRepository.save(articleReply);
                 articleReply.setComment(articleComment);
                 return replyRepository.save(articleReply);
-            }).orElseThrow(() -> new RuntimeException("没有该帖子"));
-        }).orElseThrow(() -> new RuntimeException("没有该评论"));
+            }).orElseThrow(() -> new NotFoundException("没有该帖子"));
+        }).orElseThrow(() -> new NotFoundException("没有该评论"));
     }
 }

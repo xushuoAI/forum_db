@@ -1,0 +1,159 @@
+###
+用户注册，可以不上传文件
+###
+POST  http://web.springboot.cn/user/save
+Content-Type: application/json
+
+{
+  "userName": "张三",
+  "userPassword": "123456"
+}
+
+###
+用户登录
+###
+POST http://web.springboot.cn/user/login
+Content-Type: application/json
+
+{
+  "userName": "张三",
+  "userPassword": "123456"
+}
+
+###
+根据用户名查找用户
+###
+GET http://web.springboot.cn/user/findByUserName
+Content-Type: application/json
+
+{
+  "userName": "张三"
+}
+
+###
+新增帖子，可以没有图片
+###
+POST http://web.springboot.cn/articleFourm/intercept/save/1
+Content-Type: application/json
+
+{
+  "articleContent": "abcdefghijklmn"
+}
+
+###
+根据帖子的Id ，删除帖子
+###
+DELETE http://web.springboot.cn/articleFourm/intercept/deleteById/1
+
+###
+修改帖子内容
+###
+PUT http://web.springboot.cn/articleFourm/intercept/updateById/2
+Content-Type: application/json
+
+{
+  "articleContent":"asddskjdlsdsllsdlla"
+}
+
+###
+点赞帖子传入帖子Id，如下面的2，传入点赞或取消点赞信息，如下的1（1为点赞，其他为取消点赞）
+###
+PUT http://web.springboot.cn/articleFourm/intercept/updateLike/2/1
+
+###
+根据帖子的内容模糊查询，num默认为0，即第一页，size默认为15，表示页面的大小
+###
+GET http://web.springboot.cn/articleFourm/findByContent?num=&size=
+Content-Type: application/json
+
+{
+  "articleContent":"asddskjdlsdsl"
+}
+
+###
+查询所有帖子，num默认为0，即第一页，size默认为15，表示页面的大小
+###
+GET http://web.springboot.cn/articleFourm/findAll?num=&size=
+
+###
+根据用户id查询用户发的帖子，num默认为0，即第一页，size默认为15，表示页面的大小
+###
+GET http://web.springboot.cn/articleFourm/findByUserId/1?num=&size=
+
+###
+增加帖子的评论，传入帖子的id，如下面的2
+###
+POST http://web.springboot.cn/articleComment/intercept/save/2
+Content-Type: application/json
+
+{
+  "userId":"1",
+  "commentContent":"呃呃呃呃呃呃呃呃呃呃呃呃呃呃"
+}
+
+###
+根据评论id删除评论，如下面的8
+###
+
+DELETE http://web.springboot.cn/articleComment/intercept/deleteById/8
+
+###
+点赞评论传入评论Id，如下面的3，传入点赞或取消点赞信息，如下的0（1为点赞，其他为取消点赞）
+###
+PUT http://web.springboot.cn/articleComment/intercept/updateLike/3/0
+
+###
+评论置顶，传入评论id，如下面的1，传入置顶或取消置顶信息，如下的0（1为置顶，其他为取消置顶）
+###
+PUT http://web.springboot.cn/articleComment/intercept/updateTop/1/1
+
+###
+增加评论的评论，传入评论的id，如下面的5
+###
+POST http://web.springboot.cn/articleReply/intercept/save/5
+Content-Type: application/json
+
+{
+  "replyType":"1",
+  "replyId":"1",
+  "toUserName":"zszs",
+  "fromUserName":"dsadada",
+  "replyContent":"测试"
+}
+
+###
+根据评论的评论的id，删除评论的评论
+###
+DELETE http://web.springboot.cn/articleReply/intercept/deleteById/1
+
+###
+根据评论的id，查找评论的评论，num默认为0，即第一页，size默认为15，表示页面的大小
+###
+GET http://web.springboot.cn/articleReply/findByCommentId/5?num=&size=
+###
+收藏帖子
+###
+POST http://web.springboot.cn/articleCollect/intercept/save
+Content-Type: application/json
+
+{
+  "userId":"1",
+  "articleId":"2"
+}
+
+###
+根据帖子的id，取消收藏，如下面的2
+###
+DELETE http://web.springboot.cn/articleCollect/intercept/deleteByArticleId/2
+
+###
+根据用户id查询用户收藏的帖子，传入用户id，如下面的1，num默认为0，即第一页，size默认为15，表示页面的大小
+###
+GET http://web.springboot.cn/articleCollect/intercept/findArticle/1?num=&size=
+
+###
+根据用户收藏的帖子id查询用户，传入帖子id，如下面的2，num默认为0，即第一页，size默认为15，表示页面的大小
+###
+GET http://web.springboot.cn/articleCollect/intercept/findUser/2?num=&size=
+
+###

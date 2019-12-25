@@ -22,7 +22,7 @@ public class News implements Serializable {
     private String newsReprinted;
 
 //    @JsonIgnore
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "userName", referencedColumnName = "userName")
     private User user;
 

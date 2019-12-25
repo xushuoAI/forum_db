@@ -44,7 +44,7 @@ public class CommentController {
     }
 
     @GetMapping("/findByArticleId/{articleId}")
-    public Page<ArticleComment> findByArticleId(@PathVariable Long articleId, @RequestParam int num, @RequestParam(defaultValue = "15") int size){
+    public Page<ArticleComment> findByArticleId(@PathVariable Long articleId, @RequestParam(defaultValue = "0") int num, @RequestParam(defaultValue = "15") int size){
         Pageable pageable = PageRequest.of(num, size);
         return service.findByArticleId(articleId, pageable);
     }

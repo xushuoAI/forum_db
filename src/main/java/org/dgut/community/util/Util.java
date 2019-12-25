@@ -1,5 +1,6 @@
 package org.dgut.community.util;
 
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.context.WebServerInitializedEvent;
@@ -10,13 +11,16 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.UUID;
 
 @Component
 public class Util implements ApplicationListener<WebServerInitializedEvent> {
@@ -50,28 +54,61 @@ public class Util implements ApplicationListener<WebServerInitializedEvent> {
         return "上传失败！";
     }
 
-    public static final String multiUpload(HttpServletRequest request) {
-        List<MultipartFile> files = ((MultipartHttpServletRequest) request).getFiles("file");
-        String filePath = "D:/Workspace-STS4/springboot-community/src/main/resources/templates/";
-        for (int i = 0; i < files.size(); i++) {
-            MultipartFile file = files.get(i);
-            if (file.isEmpty()) {
-                return "第" + (i++) + "个文件为空";
-            }
-            String fileName = file.getOriginalFilename();
+    public static final String uploadBase64Image(String name, String base64Data){
+        /*base64格式
+         * data:image/png;base64,xxx*/
+        String dataPrix = "";
+        String data = "";
+        if(base64Data == null || "".equals(base64Data)){
+            return null;
+        }else {
+            String[] d = base64Data.split("base64,");
+            if (d != null && d.length == 2) {
+                dataPrix = d[0];
+                data = d[1];
+            } else {
+                return null;
 
-            File dest = new File(filePath + fileName);
-            try {
-                file.transferTo(dest);
-                LOGGER.info("第" + (i + 1) + "个文件上传成功");
-            } catch (IOException e) {
-                LOGGER.error(e.toString(), e);
-                return "上传第" + (i++) + "个文件失败";
             }
         }
-
-        return "上传成功";
-
+        String suffix = "";
+        if("data:image/jpeg;".equalsIgnoreCase(dataPrix)){//data:image/jpeg;base64,base64编码的jpeg图片数据
+            suffix = ".jpg";
+        } else if("data:image/x-icon;".equalsIgnoreCase(dataPrix)){//data:image/x-icon;base64,base64编码的icon图片数据
+            suffix = ".ico";
+        } else if("data:image/gif;".equalsIgnoreCase(dataPrix)){//data:image/gif;base64,base64编码的gif图片数据
+            suffix = ".gif";
+        } else if("data:image/png;".equalsIgnoreCase(dataPrix)){//data:image/png;base64,base64编码的png图片数据
+            suffix = ".png";
+        }else{
+            return null;
+        }
+        String tempFileName = UUID.randomUUID().toString() + suffix;
+//        File dest = new File("D:/Workspace-STS4/springboot-community/src/main/resources/templates/" + name);
+//        if (!dest.exists()){
+//            dest.mkdirs();
+//        }
+        String imgFilePath = "D:/Workspace-STS4/springboot-community/src/main/resources/templates/" + name + tempFileName;//新生成的图片
+        //Base64 decoder = new Base64();
+        try {
+            //Base64解码
+            byte[] b = Base64.decodeBase64(data);
+            for(int i=0;i<b.length;++i) {
+                if(b[i]<0) {
+                    //调整异常数据
+                    b[i]+=256;
+                }
+            }
+            OutputStream out = new FileOutputStream(imgFilePath);
+            out.write(b);
+            out.flush();
+            out.close();
+            String imgUrl= getUrl() + name + tempFileName;
+            return imgUrl;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private static int serverPort;
@@ -83,7 +120,7 @@ public class Util implements ApplicationListener<WebServerInitializedEvent> {
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
-        return "http://"+address.getHostAddress() + "/";
+        return "http://"+address.getHostAddress() + ":" + serverPort + "/";
     }
 
     @Override

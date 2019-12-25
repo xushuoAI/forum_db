@@ -1,5 +1,6 @@
 package org.dgut.community.service.article.impl;
 
+import org.dgut.community.NotFoundException;
 import org.dgut.community.entity.ArticleComment;
 import org.dgut.community.repository.article.CommentRepository;
 import org.dgut.community.repository.article.FourmRepository;
@@ -8,6 +9,7 @@ import org.dgut.community.service.article.IComment;
 import org.dgut.community.util.Util;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -40,7 +42,7 @@ public class CommentServiceImpl implements IComment {
                 articleComment.setCommentLike(articleComment.getCommentLike() - 1);
                 return commentRepository.save(articleComment);
             }
-        }).orElseThrow(() -> new RuntimeException("没有该评论"));
+        }).orElseThrow(() -> new NotFoundException("没有该评论"));
     }
 
     @Override
@@ -52,21 +54,20 @@ public class CommentServiceImpl implements IComment {
                 articleComment.setIsTop(0);
             }
             return commentRepository.save(articleComment);
-        }).orElseThrow(() -> new RuntimeException("没有该评论"));
+        }).orElseThrow(() -> new NotFoundException("没有该评论"));
     }
 
     @Override
-    public String deleteById(Long id) {
+    public ResponseEntity<?> deleteById(Long id) {
         return commentRepository.findById(id).map(articleComment -> {
-            fourmRepository.findById(articleComment.getArticle().getArticleId()).map(article -> {
+            return fourmRepository.findById(articleComment.getArticle().getArticleId()).map(article -> {
                 article.setArticleCommentTimes(article.getArticleCommentTimes() - 1);
                 fourmRepository.save(article);
                 articleComment.setArticle(null);
                 commentRepository.delete(articleComment);
-                return "删除成功";
-            });
-            return "删除成功";
-        }).orElseThrow(() -> new RuntimeException("没有该帖子"));
+                return ResponseEntity.ok().build();
+            }).orElseThrow(() -> new NotFoundException("没有该帖子"));
+        }).orElseThrow(() -> new NotFoundException("没有该帖子"));
     }
 
     @Override
@@ -75,7 +76,8 @@ public class CommentServiceImpl implements IComment {
             article.setArticleCommentTimes(article.getArticleCommentTimes() + 1);
             articleComment.setArticle(article);
             articleComment.setCommentCreateTime(LocalDate.parse(Util.getTime()));
+            fourmRepository.save(article);
             return commentRepository.save(articleComment);
-        }).orElseThrow(() -> new RuntimeException("没有该帖子"));
+        }).orElseThrow(() -> new NotFoundException("没有该帖子"));
     }
 }

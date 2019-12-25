@@ -20,7 +20,7 @@ public class NewsComment implements Serializable {
     private Long newsCommentId;
 
     @JsonIgnore
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "newsId")
     private News news;
 

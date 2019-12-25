@@ -3,6 +3,7 @@ package org.dgut.community.service.article;
 import org.dgut.community.entity.ArticleComment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 
 public interface IComment {
 
@@ -12,7 +13,7 @@ public interface IComment {
 
     ArticleComment updateTop(Long id, int num);
 
-    String deleteById(Long id);
+    ResponseEntity<?> deleteById(Long id);
 
     ArticleComment save(Long articleId, ArticleComment articleComment);
 }

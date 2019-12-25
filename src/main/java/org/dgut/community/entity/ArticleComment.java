@@ -21,7 +21,7 @@ public class ArticleComment implements Serializable {
     private Long commentId;
 
     @JsonIgnore
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "articleId")
     private FourmArticle article;
 
