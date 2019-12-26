@@ -28,10 +28,10 @@ public class CollectController {
         return service.save(entity);
     }
 
-    @DeleteMapping("/intercept/deleteByArticleId/{id}")
-    public Map deleteByArticleId(@PathVariable Long id){
+    @DeleteMapping("/intercept/deleteByArticleId/{articleId}/{userId}")
+    public Map deleteByArticleId(@PathVariable Long articleId, @PathVariable Long userId){
         map.clear();
-        map.put("message", service.deleteById(id));
+        map.put("message", service.deleteById(articleId, userId));
         return map;
     }
 

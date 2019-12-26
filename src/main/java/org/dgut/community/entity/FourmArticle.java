@@ -39,7 +39,17 @@ public class FourmArticle implements Serializable {
 
     private int articleCommentTimes;
 
+    @Transient
+    private int isLike;
+
+    @Transient
+    private int collect;
+
     @JsonIgnore
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "article")
     private Set<ArticleComment> comments;
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "article")
+    private Set<ArticleLike> likes;
 }

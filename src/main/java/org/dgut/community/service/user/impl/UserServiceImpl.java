@@ -66,28 +66,31 @@ public class UserServiceImpl implements IUser {
     @Override
     public ResponseEntity<User> updatePassword(Long id, User newUser) {
         return userRepository.findById(id).map(user -> {
-            user.setUserPassword(DigestUtils.md5DigestAsHex(user.getUserPassword().getBytes()));
-            userRepository.save(user);
-            return ResponseEntity.ok(user);
+            if (!user.getUserPassword().equals(DigestUtils.md5DigestAsHex(newUser.getUserPassword().getBytes()))){
+                throw new NotFoundException("密码错误");
+            }else {
+                user.setUserPassword(DigestUtils.md5DigestAsHex(newUser.getNewPassword().getBytes()));
+                user = userRepository.save(user);
+                user.setUserPassword(null);
+                return ResponseEntity.ok(user);
+            }
         }).orElseThrow(()-> new NotFoundException("没有该用户"));
     }
 
     @Override
-    public User save(User user) {
+    public ResponseEntity<User> save(User user) {
 //        System.out.println(file.getOriginalFilename());
         User user1 = userRepository.findByUserName(user.getUserName());
         if (user1 != null){
             throw new NotFoundException("该用户已存在");
+        }else if ("".equals(user.getUserPassword())){
+            throw new NotFoundException("密码不能为空");
         }
-        if (user.getUserHeadImg() == null){
-            user.setUserHeadImg(Util.getUrl() + "abc.jpg");
-        }else {
-            user.setUserHeadImg(Util.uploadBase64Image(user.getUserName(), user.getUserHeadImg()));
-        }
+        user.setUserHeadImg(Util.getUrl() + "abc.jpg");
         user.setUserPassword(DigestUtils.md5DigestAsHex(user.getUserPassword().getBytes()));
         user = userRepository.save(user);
         user.setUserPassword(null);
-        return user;
+        return ResponseEntity.ok(user);
     }
 
     @Override

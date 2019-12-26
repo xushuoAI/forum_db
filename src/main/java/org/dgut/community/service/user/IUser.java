@@ -14,7 +14,7 @@ public interface IUser {
 
     ResponseEntity<User> updatePassword(Long id, User newUser);
 
-    User save(User user);
+    ResponseEntity<User> save(User user);
 
     User login(String name, String password);
 }

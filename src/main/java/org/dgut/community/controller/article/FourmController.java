@@ -27,16 +27,16 @@ public class FourmController {
         return service.save(entity, id);
     }
 
-    @GetMapping("/findAll")
-    public Page<FourmArticle> findAll(@RequestParam(defaultValue = "0") int num, @RequestParam(defaultValue = "15") int size){
+    @GetMapping("/findAll/{userId}")
+    public Page<FourmArticle> findAll(@PathVariable Long userId, @RequestParam(defaultValue = "0") int num, @RequestParam(defaultValue = "15") int size){
         Pageable pageable = PageRequest.of(num, size);
-        return service.findAll(pageable);
+        return service.findAll(userId, pageable);
     }
 
-    @GetMapping("/findByContent")
-    public Page<FourmArticle> findByContent(@RequestBody FourmArticle fourmArticle, @RequestParam(defaultValue = "0") int num, @RequestParam(defaultValue = "15") int size){
+    @GetMapping("/findByContent/{userId}")
+    public Page<FourmArticle> findByContent(@PathVariable Long userId, @RequestBody FourmArticle fourmArticle, @RequestParam(defaultValue = "0") int num, @RequestParam(defaultValue = "15") int size){
         Pageable pageable = PageRequest.of(num, size);
-        return service.findByArticleContentLike(fourmArticle.getArticleContent(), pageable);
+        return service.findByArticleContentLike(userId, fourmArticle.getArticleContent(), pageable);
     }
 
     @GetMapping("/findByUserId/{userId}")
@@ -50,10 +50,10 @@ public class FourmController {
         return service.updateById(id, article);
     }
 
-    @PutMapping("/intercept/updateLike/{articleId}/{num}")
-    public FourmArticle updateLike(@PathVariable Long articleId, @PathVariable int num){
-        return service.updateLike(articleId, num);
-    }
+//    @PutMapping("/intercept/updateLike/{articleId}/{num}")
+//    public FourmArticle updateLike(@PathVariable Long articleId, @PathVariable int num){
+//        return service.updateLike(articleId, num);
+//    }
 
     @DeleteMapping("/intercept/deleteById/{id}")
     public Map deleteById(@PathVariable Long id){

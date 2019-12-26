@@ -1,6 +1,7 @@
 package org.dgut.community.interceptor;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
@@ -8,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 /**
  * Created by limi on 2017/10/15.
  */
-//@Configuration
+@Configuration
 public class WebConfig extends WebMvcConfigurationSupport {
 
     @Override
@@ -17,6 +18,7 @@ public class WebConfig extends WebMvcConfigurationSupport {
                 .addPathPatterns("/*/intercept/**")
 //                .excludePathPatterns("/admin")
                 .excludePathPatterns("/user/login");
+        registry.addInterceptor(new JwtInterceptor()).addPathPatterns("/**");
     }
 
     @Override
@@ -27,5 +29,15 @@ public class WebConfig extends WebMvcConfigurationSupport {
                 .addResourceLocations("classpath:/public/")
                 .addResourceLocations("classpath:/templates/");
         super.addResourceHandlers(registry);
+    }
+
+    @Override
+    protected void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("*")
+                .allowedMethods("POST", "GET", "PUT", "DELETE")
+                .maxAge(3600)
+                .allowCredentials(true);
+        super.addCorsMappings(registry);
     }
 }

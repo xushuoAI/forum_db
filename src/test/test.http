@@ -5,9 +5,8 @@ POST  http://web.springboot.cn/user/save
 Content-Type: application/json
 
 {
-  "userName": "lisi",
-  "userPassword": "123456",
-  "userHeadImg": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAANpSURBVDjLfdPdb1N1AMbx5/ScvtHTZbSwDcrWlXXIUOdkZiRmioQXSYgX82p4YUKMkJjswpkRjCJckUWDhBCZGoJhYrwYMIUQzbhReZOZLtvqateVg"
+  "userName": "erw",
+  "userPassword": "123"
 }
 
 ###
@@ -22,7 +21,12 @@ Content-Type: application/json
 }
 
 ###
-根据用户id修改名字和头像，都可以为空
+用户登出
+###
+GET http://web.springboot.cn/user/logout
+
+###
+根据用户id，如下面的1，修改名字和头像，都可以为空
 ###
 PUT http://web.springboot.cn/user/intercept/updateById/1
 Content-Type: application/json
@@ -32,6 +36,16 @@ Content-Type: application/json
   "userHeadImg": ""
 }
 
+###
+更改用户密码，传入用户id，如下面的2
+###
+PUT http://web.springboot.cn/user/intercept/updatePassword/2
+Content-Type: application/json
+
+{
+  "userPassword": "888888",
+  "newPassword": "123456"
+}
 
 ###
 根据用户名查找用户
@@ -44,7 +58,7 @@ Content-Type: application/json
 }
 
 ###
-新增帖子，可以没有图片
+新增帖子，可以没有图片，传入用户id，如下面的1
 ###
 POST http://web.springboot.cn/articleFourm/intercept/save/1
 Content-Type: application/json
@@ -59,7 +73,7 @@ Content-Type: application/json
 DELETE http://web.springboot.cn/articleFourm/intercept/deleteById/1
 
 ###
-修改帖子内容
+根据帖子id，如下面的2，修改帖子内容
 ###
 PUT http://web.springboot.cn/articleFourm/intercept/updateById/2
 Content-Type: application/json
@@ -69,14 +83,29 @@ Content-Type: application/json
 }
 
 ###
-点赞帖子传入帖子Id，如下面的2，传入点赞或取消点赞信息，如下的1（1为点赞，其他为取消点赞）
+点赞帖子传入帖子Id, 如下面的1
 ###
-PUT http://web.springboot.cn/articleFourm/intercept/updateLike/2/1
+POST http://web.springboot.cn/articleLike/intercept/save/1
+Content-Type: application/json
+
+{
+  "userId": "1"
+}
 
 ###
-根据帖子的内容模糊查询，num默认为0，即第一页，size默认为15，表示页面的大小
+根据帖子的id，取消点赞，如下面的1
 ###
-GET http://web.springboot.cn/articleFourm/findByContent?num=&size=
+DELETE http://web.springboot.cn/articleLike/intercept/deleteById/1
+Content-Type: application/json
+
+{
+  "userId": "1"
+}
+
+###
+根据帖子的内容模糊查询，传入用户id，如下面的1，判断该用户是否已经点赞或收藏了帖子，num默认为0，即第一页，size默认为15，表示页面的大小
+###
+GET http://web.springboot.cn/articleFourm/findByContent/1?num=&size=
 Content-Type: application/json
 
 {
@@ -84,9 +113,9 @@ Content-Type: application/json
 }
 
 ###
-查询所有帖子，num默认为0，即第一页，size默认为15，表示页面的大小
+查询所有帖子，传入用户id，如下面的1，判断该用户是否已经点赞或收藏了帖子，num默认为0，即第一页，size默认为15，表示页面的大小
 ###
-GET http://web.springboot.cn/articleFourm/findAll?num=&size=
+GET http://web.springboot.cn/articleFourm/findAll/1?num=&size=
 
 ###
 根据用户id查询用户发的帖子，num默认为0，即第一页，size默认为15，表示页面的大小
@@ -107,7 +136,6 @@ Content-Type: application/json
 ###
 根据评论id删除评论，如下面的8
 ###
-
 DELETE http://web.springboot.cn/articleComment/intercept/deleteById/8
 
 ###
@@ -118,7 +146,7 @@ PUT http://web.springboot.cn/articleComment/intercept/updateLike/3/0
 ###
 评论置顶，传入评论id，如下面的1，传入置顶或取消置顶信息，如下的0（1为置顶，其他为取消置顶）
 ###
-PUT http://web.springboot.cn/articleComment/intercept/updateTop/1/1
+PUT http://web.springboot.cn/articleComment/intercept/updateTop/1/0
 
 ###
 增加评论的评论，传入评论的id，如下面的5

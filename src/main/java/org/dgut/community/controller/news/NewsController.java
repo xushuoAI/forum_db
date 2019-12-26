@@ -57,7 +57,7 @@ public class NewsController {
     }
 
     @GetMapping("/findByTitleOrContent")
-    public Page<News> findByTitleOrContent(@RequestBody News news, @RequestParam int num, @RequestParam(defaultValue = "15") int size){
+    public Page<News> findByTitleOrContent(@RequestBody News news, @RequestParam(defaultValue = "0") int num, @RequestParam(defaultValue = "15") int size){
         Pageable pageable = PageRequest.of(num, size);
         return service.findByNewsContentLikeOrNewsTitleLike(news.getNewsTitle(), pageable);
     }

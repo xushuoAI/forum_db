@@ -9,6 +9,37 @@ Content-Type: application/json
 
 ###
 
-DELETE http://web.springboot.cn/news/intercept/deleteById/1
+DELETE http://web.springboot.cn/news/intercept/deleteById/2
+
+###
+
+PUT http://web.springboot.cn/news/intercept/updateById/4
+Content-Type: application/json
+
+{
+  "newsTitle":"ancdef",
+  "newsContent":"会计师的离开克里斯酸辣粉商量商量了独立设计师将电视机的就是会计考试地点慷慨激昂历史记录"
+}
+
+###
+
+PUT http://web.springboot.cn/news/updateViewTimes/4
+
+###
+
+PUT http://web.springboot.cn/news/intercept/updateLike/4/1
+
+###
+
+PUT http://web.springboot.cn/news/intercept/updateCollect/4/0
+
+###
+
+GET http://web.springboot.cn/news/findByTitleOrContent?num=&size=
+Content-Type: application/json
+
+{
+  "newsTitle": "abc"
+}
 
 ###

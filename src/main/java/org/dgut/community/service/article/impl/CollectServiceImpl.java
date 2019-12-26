@@ -70,11 +70,12 @@ public class CollectServiceImpl implements ICollect {
     }
 
     @Override
-    public ResponseEntity<?> deleteById(Long articleId) {
+    public ResponseEntity<?> deleteById(Long articleId, Long userId) {
         return fourmRepository.findById(articleId).map(article -> {
             article.setArticleCollect(article.getArticleCollect() - 1);
             fourmRepository.save(article);
-            collectRepository.deleteByArticleId(articleId);
+            ArticleCollect collect = collectRepository.findByArticleIdAndUserId(articleId, userId);
+            collectRepository.delete(collect);
             return ResponseEntity.ok().build();
         }).orElseThrow(()-> new NotFoundException("没有该帖子"));
     }

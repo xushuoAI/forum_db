@@ -53,7 +53,7 @@ public class UserController {
     }
 
     @PostMapping("/save")
-    public User save(@RequestBody User entity){
+    public ResponseEntity<User> save(@RequestBody User entity){
         return service.save(entity);
     }
 

@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Set;
 
@@ -23,6 +25,9 @@ public class User implements Serializable {
 
     @Column(nullable = false)
     private String userPassword;
+
+    @Transient
+    private String newPassword;
 
     private String userHeadImg;
 

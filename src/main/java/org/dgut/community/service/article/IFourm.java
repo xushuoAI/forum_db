@@ -9,9 +9,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface IFourm {
-    Page<FourmArticle> findByArticleContentLike(String articleContent, Pageable pageable);
+    Page<FourmArticle> findByArticleContentLike(Long userId, String articleContent, Pageable pageable);
 
-    Page<FourmArticle> findAll(Pageable pageable);
+    Page<FourmArticle> findAll(Long userId, Pageable pageable);
 
     Page<FourmArticle> findByUserId(Long id, Pageable pageable);
 
@@ -19,7 +19,7 @@ public interface IFourm {
 
     FourmArticle updateById(Long id, FourmArticle newFourmArticle);
 
-    FourmArticle updateLike(Long id, int num);
+//    FourmArticle updateLike(Long id, int num);
 
     FourmArticle save(FourmArticle fourmArticle, Long id);
 }

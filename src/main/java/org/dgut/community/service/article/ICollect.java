@@ -14,7 +14,7 @@ public interface ICollect {
 
     List<User> findByArticleId(Long id, Pageable pageable);
 
-    ResponseEntity<?> deleteById(Long id);
+    ResponseEntity<?> deleteById(Long id, Long userId);
 
     ArticleCollect save(ArticleCollect articleCollect);
 }
