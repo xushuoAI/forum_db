@@ -5,6 +5,7 @@ import org.dgut.community.entity.ArticleComment;
 import org.dgut.community.repository.article.CommentRepository;
 import org.dgut.community.repository.article.FourmRepository;
 import org.dgut.community.repository.user.UserRepository;
+import org.dgut.community.resultenum.ResultEnum;
 import org.dgut.community.service.article.IComment;
 import org.dgut.community.util.Util;
 import org.springframework.data.domain.Page;
@@ -42,7 +43,7 @@ public class CommentServiceImpl implements IComment {
                 articleComment.setCommentLike(articleComment.getCommentLike() - 1);
                 return commentRepository.save(articleComment);
             }
-        }).orElseThrow(() -> new NotFoundException("没有该评论"));
+        }).orElseThrow(() -> new NotFoundException(ResultEnum.ID_NOT_EXIST));
     }
 
     @Override
@@ -54,7 +55,7 @@ public class CommentServiceImpl implements IComment {
                 articleComment.setIsTop(0);
             }
             return commentRepository.save(articleComment);
-        }).orElseThrow(() -> new NotFoundException("没有该评论"));
+        }).orElseThrow(() -> new NotFoundException(ResultEnum.ID_NOT_EXIST));
     }
 
     @Override
@@ -66,8 +67,8 @@ public class CommentServiceImpl implements IComment {
                 articleComment.setArticle(null);
                 commentRepository.delete(articleComment);
                 return ResponseEntity.ok().build();
-            }).orElseThrow(() -> new NotFoundException("没有该帖子"));
-        }).orElseThrow(() -> new NotFoundException("没有该帖子"));
+            }).orElseThrow(() -> new NotFoundException(ResultEnum.ID_NOT_EXIST));
+        }).orElseThrow(() -> new NotFoundException(ResultEnum.ID_NOT_EXIST));
     }
 
     @Override
@@ -78,6 +79,6 @@ public class CommentServiceImpl implements IComment {
             articleComment.setCommentCreateTime(LocalDate.parse(Util.getTime()));
             fourmRepository.save(article);
             return commentRepository.save(articleComment);
-        }).orElseThrow(() -> new NotFoundException("没有该帖子"));
+        }).orElseThrow(() -> new NotFoundException(ResultEnum.ID_NOT_EXIST));
     }
 }

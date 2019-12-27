@@ -3,6 +3,7 @@ package org.dgut.community.service.user.impl;
 import org.dgut.community.NotFoundException;
 import org.dgut.community.entity.Admin;
 import org.dgut.community.repository.user.AdminRepository;
+import org.dgut.community.resultenum.ResultEnum;
 import org.dgut.community.service.user.IAdmin;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
@@ -37,7 +38,7 @@ public class AdminServiceImpl implements IAdmin {
             admin = adminRepository.save(admin);
             admin.setAdminPassword(null);
             return admin;
-        }).orElseThrow(()-> new NotFoundException("没有该id"));
+        }).orElseThrow(()-> new NotFoundException(ResultEnum.ID_NOT_EXIST));
     }
 
     @Override

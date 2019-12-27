@@ -24,4 +24,5 @@ public class ArticleLikeController {
     public ResponseEntity<?> deleteById(@PathVariable Long articleId, @RequestBody ArticleLike like){
         return service.deleteByArticleId(articleId, like);
     }
+
 }

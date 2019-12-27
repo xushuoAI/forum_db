@@ -7,6 +7,7 @@ import org.dgut.community.entity.User;
 import org.dgut.community.repository.article.CollectRepository;
 import org.dgut.community.repository.article.FourmRepository;
 import org.dgut.community.repository.user.UserRepository;
+import org.dgut.community.resultenum.ResultEnum;
 import org.dgut.community.service.article.ICollect;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -77,7 +78,7 @@ public class CollectServiceImpl implements ICollect {
             ArticleCollect collect = collectRepository.findByArticleIdAndUserId(articleId, userId);
             collectRepository.delete(collect);
             return ResponseEntity.ok().build();
-        }).orElseThrow(()-> new NotFoundException("没有该帖子"));
+        }).orElseThrow(()-> new NotFoundException(ResultEnum.ID_NOT_EXIST));
     }
 
     @Override
@@ -86,6 +87,6 @@ public class CollectServiceImpl implements ICollect {
             article.setArticleCollect(article.getArticleCollect() + 1);
             fourmRepository.save(article);
             return collectRepository.save(articleCollect);
-        }).orElseThrow(()-> new NotFoundException("没有该帖子"));
+        }).orElseThrow(()-> new NotFoundException(ResultEnum.ID_NOT_EXIST));
     }
 }

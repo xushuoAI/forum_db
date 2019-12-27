@@ -54,7 +54,9 @@ public class Util implements ApplicationListener<WebServerInitializedEvent> {
         return "上传失败！";
     }
 
+
     public static final String uploadBase64Image(String name, String base64Data){
+        //System.out.println(base64Data);
         /*base64格式
          * data:image/png;base64,xxx*/
         String dataPrix = "";
@@ -66,6 +68,7 @@ public class Util implements ApplicationListener<WebServerInitializedEvent> {
             if (d != null && d.length == 2) {
                 dataPrix = d[0];
                 data = d[1];
+//                System.out.println("坎坎坷坷"+data);
             } else {
                 return null;
 
@@ -120,7 +123,8 @@ public class Util implements ApplicationListener<WebServerInitializedEvent> {
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
-        return "http://"+address.getHostAddress() + ":" + serverPort + "/";
+//        return "http://"+address.getHostAddress() + ":" + serverPort + "/";
+        return "http://192.168.23.1/";
     }
 
     @Override

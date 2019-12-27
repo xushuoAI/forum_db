@@ -6,6 +6,7 @@ import org.dgut.community.repository.article.CollectRepository;
 import org.dgut.community.repository.article.FourmRepository;
 import org.dgut.community.repository.article.LikeRepository;
 import org.dgut.community.repository.user.UserRepository;
+import org.dgut.community.resultenum.ResultEnum;
 import org.dgut.community.service.article.IFourm;
 import org.dgut.community.util.Util;
 import org.springframework.data.domain.Page;
@@ -62,8 +63,8 @@ public class FourmServiceImpl implements IFourm {
                 fourmArticle.setUser(null);
                 fourmRepository.delete(fourmArticle);
                 return ResponseEntity.ok().build();
-            }).orElseThrow(() -> new NotFoundException("没有该Id"));
-        }).orElseThrow(() -> new NotFoundException("没有该Id"));
+            }).orElseThrow(() -> new NotFoundException(ResultEnum.ID_NOT_EXIST));
+        }).orElseThrow(() -> new NotFoundException(ResultEnum.ID_NOT_EXIST));
     }
 
     @Override
@@ -73,7 +74,7 @@ public class FourmServiceImpl implements IFourm {
             fourmArticle = fourmRepository.save(fourmArticle);
             fourmArticle.getUser().setUserPassword(null);
             return fourmArticle;
-        }).orElseThrow(() -> new NotFoundException("没有该帖子"));
+        }).orElseThrow(() -> new NotFoundException(ResultEnum.ID_NOT_EXIST));
     }
 
 //    @Override
@@ -92,7 +93,7 @@ public class FourmServiceImpl implements IFourm {
 //            article = fourmRepository.save(article);
 //            article.getUser().setUserPassword(null);
 //            return article;
-//        }).orElseThrow(() -> new NotFoundException("没有该帖子"));
+//        }).orElseThrow(() -> new NotFoundException(ResultEnum.ID_NOT_EXIST));
 //    }
 
     @Override
@@ -113,7 +114,7 @@ public class FourmServiceImpl implements IFourm {
             FourmArticle article = fourmRepository.save(fourmArticle);
             article.getUser().setUserPassword(null);
             return article;
-        }).orElseThrow(() -> new NotFoundException("没有该Id"));
+        }).orElseThrow(() -> new NotFoundException(ResultEnum.ID_NOT_EXIST));
     }
 
     Page<FourmArticle> addLikeAndCollect(Page<FourmArticle> articles, Long userId){

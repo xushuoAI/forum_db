@@ -4,6 +4,7 @@ import org.dgut.community.NotFoundException;
 import org.dgut.community.entity.NewsReply;
 import org.dgut.community.repository.news.NewsCommentRepository;
 import org.dgut.community.repository.news.NewsReplyRepository;
+import org.dgut.community.resultenum.ResultEnum;
 import org.dgut.community.service.news.INewsReply;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -39,8 +40,8 @@ public class NewsReplyServiceImpl implements INewsReply {
                 newsReply.setComment(null);
                 newsReplyRepository.delete(newsReply);
                 return ResponseEntity.ok().build();
-            }).orElseThrow(()-> new NotFoundException("没有该评论"));
-        }).orElseThrow(()-> new NotFoundException("没有该回复"));
+            }).orElseThrow(()-> new NotFoundException(ResultEnum.ID_NOT_EXIST));
+        }).orElseThrow(()-> new NotFoundException(ResultEnum.ID_NOT_EXIST));
     }
 
     @Override
@@ -55,6 +56,6 @@ public class NewsReplyServiceImpl implements INewsReply {
             commentRepository.save(newsComment);
             newsReply.setComment(newsComment);
             return newsReplyRepository.save(newsReply);
-        }).orElseThrow(()-> new NotFoundException("没有该评论"));
+        }).orElseThrow(()-> new NotFoundException(ResultEnum.ID_NOT_EXIST));
     }
 }

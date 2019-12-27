@@ -7,6 +7,7 @@ import org.dgut.community.entity.User;
 import org.dgut.community.entity.UserFollow;
 import org.dgut.community.repository.user.FollowRepository;
 import org.dgut.community.repository.user.UserRepository;
+import org.dgut.community.resultenum.ResultEnum;
 import org.dgut.community.service.user.IFollow;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -77,9 +78,9 @@ public class FollowServiceImpl implements IFollow {
                     userRepository.save(user);
                     followRepository.delete(userFollow);
                     return ResponseEntity.ok().build();
-                }).orElseThrow(()-> new NotFoundException("没有该用户"));
-            }).orElseThrow(()-> new NotFoundException("没有该用户"));
-        }).orElseThrow(()-> new NotFoundException("没有关注该用户"));
+                }).orElseThrow(()-> new NotFoundException(ResultEnum.ID_NOT_EXIST));
+            }).orElseThrow(()-> new NotFoundException(ResultEnum.ID_NOT_EXIST));
+        }).orElseThrow(()-> new NotFoundException(ResultEnum.ID_NOT_EXIST));
     }
 
     @Override
@@ -96,7 +97,7 @@ public class FollowServiceImpl implements IFollow {
                 userRepository.save(user1);
                 userRepository.save(user);
                 return followRepository.save(userFollow);
-            }).orElseThrow(()-> new NotFoundException("没有该用户"));
-        }).orElseThrow(()-> new NotFoundException("没有该用户"));
+            }).orElseThrow(()-> new NotFoundException(ResultEnum.ID_NOT_EXIST));
+        }).orElseThrow(()-> new NotFoundException(ResultEnum.ID_NOT_EXIST));
     }
 }

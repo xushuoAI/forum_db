@@ -18,7 +18,6 @@ public class WebConfig extends WebMvcConfigurationSupport {
                 .addPathPatterns("/*/intercept/**")
 //                .excludePathPatterns("/admin")
                 .excludePathPatterns("/user/login");
-        registry.addInterceptor(new JwtInterceptor()).addPathPatterns("/**");
     }
 
     @Override
@@ -31,13 +30,13 @@ public class WebConfig extends WebMvcConfigurationSupport {
         super.addResourceHandlers(registry);
     }
 
-    @Override
-    protected void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("*")
-                .allowedMethods("POST", "GET", "PUT", "DELETE")
-                .maxAge(3600)
-                .allowCredentials(true);
-        super.addCorsMappings(registry);
-    }
+//    @Override
+//    protected void addCorsMappings(CorsRegistry registry) {
+//        registry.addMapping("/**")
+//                .allowedOrigins("*")
+//                .allowedMethods("POST", "GET", "PUT", "DELETE")
+//                .maxAge(3600)
+//                .allowCredentials(true);
+//        super.addCorsMappings(registry);
+//    }
 }

@@ -1,18 +1,13 @@
 package org.dgut.community.controller.user;
 
-import org.dgut.community.entity.FourmArticle;
 import org.dgut.community.entity.User;
 import org.dgut.community.service.user.impl.UserServiceImpl;
-import org.dgut.community.util.Util;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/user")
@@ -33,12 +28,13 @@ public class UserController {
             map.put("message", "登录成功");
             map.put("user", user);
             session.setAttribute("user", user);
+//            User user1 = (User) session.getAttribute("user");
+//            System.out.println(user1.getUserName());
         }else {
             map.put("message", "用户名或密码有误");
         }
         return map;
     }
-
     @GetMapping("/logout")
     public Map logout(HttpSession session) {
         session.removeAttribute("user");

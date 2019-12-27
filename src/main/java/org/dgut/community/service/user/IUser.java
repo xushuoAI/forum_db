@@ -2,7 +2,6 @@ package org.dgut.community.service.user;
 
 import org.dgut.community.entity.User;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.multipart.MultipartFile;
 
 public interface IUser {
 

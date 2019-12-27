@@ -5,6 +5,7 @@ import org.dgut.community.entity.FourmArticle;
 import org.dgut.community.entity.News;
 import org.dgut.community.repository.news.NewsRepository;
 import org.dgut.community.repository.user.UserRepository;
+import org.dgut.community.resultenum.ResultEnum;
 import org.dgut.community.service.news.INews;
 import org.dgut.community.util.Util;
 import org.springframework.data.domain.Page;
@@ -89,7 +90,7 @@ public class NewsServiceImpl implements INews {
             news.setUser(null);
             newsRepository.delete(news);
             return ResponseEntity.ok().build();
-        }).orElseThrow(() -> new NotFoundException("没有该Id"));
+        }).orElseThrow(() -> new NotFoundException(ResultEnum.ID_NOT_EXIST));
     }
 
     @Override
@@ -107,7 +108,7 @@ public class NewsServiceImpl implements INews {
                 news1.getUser().setUserPassword(null);
                 return news1;
             }
-        }).orElseThrow(() -> new NotFoundException("没有该新闻"));
+        }).orElseThrow(() -> new NotFoundException(ResultEnum.ID_NOT_EXIST));
     }
 
     @Override
@@ -123,7 +124,7 @@ public class NewsServiceImpl implements INews {
             News news1 = newsRepository.save(news);
             news1.getUser().setUserPassword(null);
             return news1;
-        }).orElseThrow(()-> new NotFoundException("没有该新闻"));
+        }).orElseThrow(()-> new NotFoundException(ResultEnum.ID_NOT_EXIST));
     }
 
     @Override
@@ -135,7 +136,7 @@ public class NewsServiceImpl implements INews {
             News news1 = newsRepository.save(news);
             news1.getUser().setUserPassword(null);
             return news1;
-        }).orElseThrow(() -> new NotFoundException("没有该id"));
+        }).orElseThrow(() -> new NotFoundException(ResultEnum.ID_NOT_EXIST));
     }
 
     @Override
@@ -145,7 +146,7 @@ public class NewsServiceImpl implements INews {
             News news1 = newsRepository.save(news);
             news1.getUser().setUserPassword(null);
             return news1;
-        }).orElseThrow(()-> new NotFoundException("没有该新闻"));
+        }).orElseThrow(()-> new NotFoundException(ResultEnum.ID_NOT_EXIST));
     }
 
     @Override
@@ -164,6 +165,6 @@ public class NewsServiceImpl implements INews {
             News news1 = newsRepository.save(news);
             news1.getUser().setUserPassword(null);
             return news1;
-        }).orElseThrow(() -> new NotFoundException("没有该Id"));
+        }).orElseThrow(() -> new NotFoundException(ResultEnum.ID_NOT_EXIST));
     }
 }

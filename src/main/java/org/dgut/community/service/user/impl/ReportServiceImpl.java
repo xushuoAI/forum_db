@@ -3,6 +3,7 @@ package org.dgut.community.service.user.impl;
 import org.dgut.community.NotFoundException;
 import org.dgut.community.entity.Report;
 import org.dgut.community.repository.user.ReportRepository;
+import org.dgut.community.resultenum.ResultEnum;
 import org.dgut.community.service.user.IReport;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class ReportServiceImpl implements IReport {
         return reportRepository.findById(id).map(report -> {
             reportRepository.delete(report);
             return ResponseEntity.ok().build();
-        }).orElseThrow(()-> new NotFoundException("未找到该举报信息"));
+        }).orElseThrow(()-> new NotFoundException(ResultEnum.ID_NOT_EXIST));
     }
 
     @Override
@@ -33,7 +34,7 @@ public class ReportServiceImpl implements IReport {
         return reportRepository.findById(id).map(report -> {
             report.setReprtManage(1);
             return reportRepository.save(report);
-        }).orElseThrow(()-> new NotFoundException("未找到该举报信息"));
+        }).orElseThrow(()-> new NotFoundException(ResultEnum.ID_NOT_EXIST));
     }
 
     @Override

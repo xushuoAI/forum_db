@@ -5,6 +5,7 @@ import org.dgut.community.entity.ArticleReply;
 import org.dgut.community.repository.article.CommentRepository;
 import org.dgut.community.repository.article.FourmRepository;
 import org.dgut.community.repository.article.ReplyRepository;
+import org.dgut.community.resultenum.ResultEnum;
 import org.dgut.community.service.article.IReply;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -43,12 +44,12 @@ public class ReplyServiceImpl implements IReply {
                     fourmRepository.save(fourmArticle);
                     commentRepository.save(articleComment);
                     return replyRepository.save(articleReply);
-                }).orElseThrow(() -> new NotFoundException("没有该帖子"));
+                }).orElseThrow(() -> new NotFoundException(ResultEnum.ID_NOT_EXIST));
                 articleReply.setComment(null);
                 replyRepository.delete(articleReply);
                 return ResponseEntity.ok().build();
-            }).orElseThrow(() -> new NotFoundException("没有该评论"));
-        }).orElseThrow(() -> new NotFoundException("没有该评论"));
+            }).orElseThrow(() -> new NotFoundException(ResultEnum.ID_NOT_EXIST));
+        }).orElseThrow(() -> new NotFoundException(ResultEnum.ID_NOT_EXIST));
     }
 
     @Override
@@ -62,7 +63,7 @@ public class ReplyServiceImpl implements IReply {
                 replyRepository.save(articleReply);
                 articleReply.setComment(articleComment);
                 return replyRepository.save(articleReply);
-            }).orElseThrow(() -> new NotFoundException("没有该帖子"));
-        }).orElseThrow(() -> new NotFoundException("没有该评论"));
+            }).orElseThrow(() -> new NotFoundException(ResultEnum.ID_NOT_EXIST));
+        }).orElseThrow(() -> new NotFoundException(ResultEnum.ID_NOT_EXIST));
     }
 }

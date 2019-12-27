@@ -4,6 +4,7 @@ import org.dgut.community.NotFoundException;
 import org.dgut.community.entity.ArticleLike;
 import org.dgut.community.repository.article.FourmRepository;
 import org.dgut.community.repository.article.LikeRepository;
+import org.dgut.community.resultenum.ResultEnum;
 import org.dgut.community.service.article.IArticleLike;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class ArticleLikeServiceImpl implements IArticleLike {
             fourmRepository.save(fourmArticle);
             like.setArticle(fourmArticle);
             return ResponseEntity.ok(likeRepository.save(like));
-        }).orElseThrow(()-> new NotFoundException("没有该帖子"));
+        }).orElseThrow(()-> new NotFoundException(ResultEnum.ID_NOT_EXIST));
     }
 
     @Override
@@ -38,6 +39,6 @@ public class ArticleLikeServiceImpl implements IArticleLike {
             articleLike.setArticle(null);
             likeRepository.delete(articleLike);
             return ResponseEntity.ok().build();
-        }).orElseThrow(()-> new NotFoundException("没有该帖子"));
+        }).orElseThrow(()-> new NotFoundException(ResultEnum.ID_NOT_EXIST));
     }
 }
