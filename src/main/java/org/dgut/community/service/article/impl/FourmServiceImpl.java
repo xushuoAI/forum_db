@@ -102,18 +102,28 @@ public class FourmServiceImpl implements IFourm {
     }
 
     Page<FourmArticle> addLikeAndCollect(Page<FourmArticle> articles, Long userId){
-        for (FourmArticle article : articles) {
-            if (likeRepository.findByArticle_ArticleIdAndUserId(article.getArticleId(), userId) != null){
-                article.setIsLike(1);
+        if (userId == 0){
+            for (FourmArticle article : articles) {
+                article.getUser().setUserPassword(null);
+                if (article.getArticlePhoto() != null){
+                    article.setPhotos(article.getArticlePhoto().split(","));
+                }
             }
-            if (collectRepository.findByArticleIdAndUserId(article.getArticleId(), userId) != null){
-                article.setCollect(1);
-            }
-            article.getUser().setUserPassword(null);
-            if (article.getArticlePhoto() != null){
-                article.setPhotos(article.getArticlePhoto().split(","));
+        }else {
+            for (FourmArticle article : articles) {
+                if (likeRepository.findByArticle_ArticleIdAndUserId(article.getArticleId(), userId) != null){
+                    article.setIsLike(1);
+                }
+                if (collectRepository.findByArticleIdAndUserId(article.getArticleId(), userId) != null){
+                    article.setCollect(1);
+                }
+                article.getUser().setUserPassword(null);
+                if (article.getArticlePhoto() != null){
+                    article.setPhotos(article.getArticlePhoto().split(","));
+                }
             }
         }
+
         return articles;
     }
 

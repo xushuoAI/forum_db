@@ -31,14 +31,19 @@ public class FourmController {
     }
 
     @GetMapping("/findAll/{userId}")
-    public Page<FourmArticle> findAll(@PathVariable Long userId, @RequestParam(defaultValue = "0") int num, @RequestParam(defaultValue = "15") int size){
+    public Page<FourmArticle> findAll(@PathVariable Long userId,
+                                      @RequestParam(defaultValue = "0") int num,
+                                      @RequestParam(defaultValue = "15") int size){
         Sort sort = Sort.by(Sort.Direction.DESC, "articleId");
         Pageable pageable = PageRequest.of(num, size, sort);
         return service.findAll(userId, pageable);
     }
 
     @GetMapping("/findByContent/{userId}")
-    public Page<FourmArticle> findByContent(@PathVariable Long userId, @RequestBody FourmArticle fourmArticle, @RequestParam(defaultValue = "0") int num, @RequestParam(defaultValue = "15") int size){
+    public Page<FourmArticle> findByContent(@PathVariable Long userId,
+                                            @RequestBody FourmArticle fourmArticle,
+                                            @RequestParam(defaultValue = "0") int num,
+                                            @RequestParam(defaultValue = "15") int size){
         Sort sort = Sort.by(Sort.Direction.DESC, "articleId");
         Pageable pageable = PageRequest.of(num, size, sort);
         return service.findByArticleContentLike(userId, fourmArticle.getArticleContent(), pageable);
