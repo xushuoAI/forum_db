@@ -70,7 +70,7 @@ public class NewsCommentServiceImpl implements INewsComment {
     public NewsComment save(Long newsId, NewsComment newsComment) {
         return newsRepository.findById(newsId).map(news -> {
             newsComment.setNews(news);
-            newsComment.setNewsCommentCreateTime(LocalDate.parse(Util.getTime()));
+//            newsComment.setNewsCommentCreateTime(LocalDate.parse(Util.getTime()));
             return newsCommentRepository.save(newsComment);
         }).orElseThrow(()-> new NotFoundException(ResultEnum.ID_NOT_EXIST));
     }

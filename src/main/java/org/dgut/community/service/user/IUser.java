@@ -1,7 +1,10 @@
 package org.dgut.community.service.user;
 
 import org.dgut.community.entity.User;
+import org.dgut.community.resultenum.Result;
 import org.springframework.http.ResponseEntity;
+
+import javax.servlet.http.HttpSession;
 
 public interface IUser {
 
@@ -9,11 +12,11 @@ public interface IUser {
 
     ResponseEntity<?> deleteById(Long id);
 
-    User updateById(Long id, User newUser);
+    ResponseEntity<Result> updateById(Long id, User newUser);
 
-    ResponseEntity<User> updatePassword(Long id, User newUser);
+    ResponseEntity<Result> updatePassword(Long id, User newUser);
 
-    ResponseEntity<User> save(User user);
+    ResponseEntity<Result> save(User user);
 
-    User login(String name, String password);
+    ResponseEntity<Result> login(String name, String password, HttpSession session);
 }

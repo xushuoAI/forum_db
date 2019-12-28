@@ -9,6 +9,7 @@ public enum ResultEnum {
     USER_PASSWORS_MISTAKE(-1, "用户名或密码错误"),
     ID_NOT_EXIST(-1,"没有该Id"),
     PASSWORD_IS_NULL(-1, "密码不能为空"),
+    NOT_LOGIN(-1, "请先登录"),
     ;
 
     private Integer code;

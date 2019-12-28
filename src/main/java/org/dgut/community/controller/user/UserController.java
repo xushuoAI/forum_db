@@ -1,7 +1,12 @@
 package org.dgut.community.controller.user;
 
+import org.dgut.community.NotFoundException;
 import org.dgut.community.entity.User;
+import org.dgut.community.resultenum.Result;
+import org.dgut.community.resultenum.ResultEnum;
 import org.dgut.community.service.user.impl.UserServiceImpl;
+import org.dgut.community.session.MySessionContext;
+import org.dgut.community.util.ResultUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,27 +25,38 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public Map login(@RequestBody User user, HttpSession session){
-        user = service.login(user.getUserName(), user.getUserPassword());
-        if (user != null){
-            map.clear();
-            user.setUserPassword(null);
-            map.put("message", "登录成功");
-            map.put("user", user);
-            session.setAttribute("user", user);
-//            User user1 = (User) session.getAttribute("user");
-//            System.out.println(user1.getUserName());
-        }else {
-            map.put("message", "用户名或密码有误");
-        }
-        return map;
+    public ResponseEntity<Result> login(@RequestBody User user, HttpSession session){
+        return service.login(user.getUserName(), user.getUserPassword(), session);
+//        if (user != null){
+//            map.clear();
+//            user.setUserPassword(null);
+//            map.put("message", "登录成功");
+//            map.put("user", user);
+//            session.setAttribute("user", user);
+////            User user1 = (User) session.getAttribute("user");
+////            System.out.println(user1.getUserName());
+//        }else {
+//            throw new NotFoundException(ResultEnum.USER_PASSWORS_MISTAKE);
+//        }
+//        return map;
     }
     @GetMapping("/logout")
-    public Map logout(HttpSession session) {
+    public ResponseEntity<Result> logout(HttpSession session) {
         session.removeAttribute("user");
-        map.clear();
-        map.put("message", "注销成功");
-        return map;
+//        map.clear();
+//        map.put("message", "注销成功");
+        return ResponseEntity.ok(ResultUtil.error(0, "注销成功"));
+    }
+
+    @GetMapping("/getUser/{sessionId}")
+    public ResponseEntity<Result> getsession(@PathVariable String sessionId){
+        MySessionContext myc= MySessionContext.getInstance();
+        HttpSession session = myc.getSession(sessionId);
+        User user = (User)session.getAttribute("user");
+        if (user == null){
+            throw new NotFoundException(ResultEnum.NOT_LOGIN);
+        }
+        return ResponseEntity.ok(ResultUtil.success(user));
     }
 
     @GetMapping("/findByUserName")
@@ -49,24 +65,22 @@ public class UserController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<User> save(@RequestBody User entity){
+    public ResponseEntity<Result> save(@RequestBody User entity){
         return service.save(entity);
     }
 
     @PutMapping("/intercept/updateById/{id}")
-    public User updateById(@PathVariable Long id, @RequestBody User newUser){
+    public ResponseEntity<Result> updateById(@PathVariable Long id, @RequestBody User newUser){
         return service.updateById(id, newUser);
     }
 
     @PutMapping("/intercept/updatePassword/{id}")
-    public ResponseEntity<User> updatePassword(@PathVariable Long id, @RequestBody User newUser){
+    public ResponseEntity<Result> updatePassword(@PathVariable Long id, @RequestBody User newUser){
         return service.updatePassword(id, newUser);
     }
 
     @DeleteMapping("/intercept/deleteById/{id}")
-    public Map<String, Object> deleteById(@PathVariable Long id){
-        map.clear();
-        map.put("message", service.deleteById(id));
-        return map;
+    public ResponseEntity<?> deleteById(@PathVariable Long id){
+        return service.deleteById(id);
     }
 }

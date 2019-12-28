@@ -1,6 +1,7 @@
 package org.dgut.community.controller.article;
 
 import org.dgut.community.entity.ArticleLike;
+import org.dgut.community.resultenum.Result;
 import org.dgut.community.service.article.impl.ArticleLikeServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,7 @@ public class ArticleLikeController {
     }
 
     @PostMapping("/intercept/save/{articleId}")
-    public ResponseEntity<ArticleLike> save(@PathVariable Long articleId, @RequestBody ArticleLike like){
+    public ResponseEntity<Result> save(@PathVariable Long articleId, @RequestBody ArticleLike like){
         return service.save(articleId, like);
     }
 

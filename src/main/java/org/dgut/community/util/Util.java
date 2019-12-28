@@ -27,11 +27,11 @@ public class Util implements ApplicationListener<WebServerInitializedEvent> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Util.class);
 
-    public static final String getTime() {
-        Date d = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        return sdf.format(d);
-    }
+//    public static final String getTime() {
+//        Date d = new Date();
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//        return sdf.format(d);
+//    }
 
     public static String upload(MultipartFile file, String userName, String name) {
         if (file.isEmpty()) {
@@ -111,6 +111,20 @@ public class Util implements ApplicationListener<WebServerInitializedEvent> {
         } catch (IOException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public static void deleteFile(String path){
+        String[] splits = path.split(",");
+        String filePath = "D:/Workspace-STS4/springboot-community/src/main/resources/templates/";
+        for (String split : splits){
+            String sub = split.substring(split.lastIndexOf("/") + 1);
+            File file = new File(filePath + sub);
+            if (!"abc.jpg".equals(sub)){
+                if (file.exists()){
+                    file.delete();
+                }
+            }
         }
     }
 

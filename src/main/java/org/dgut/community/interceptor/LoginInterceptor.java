@@ -1,6 +1,8 @@
 package org.dgut.community.interceptor;
 
+import org.dgut.community.NotFoundException;
 import org.dgut.community.entity.User;
+import org.dgut.community.resultenum.ResultEnum;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,10 +16,11 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if (request.getSession().getAttribute("user") == null) {
+            throw new NotFoundException(ResultEnum.NOT_LOGIN);
 //            response.sendRedirect("/admin");
-            User user = (User) request.getSession().getAttribute("user");
-            System.out.println(user.getUserName());
-            return false;
+//            User user = (User) request.getSession().getAttribute("user");
+//            System.out.println(user.getUserName());
+//            return false;
         }
         User user = (User) request.getSession().getAttribute("user");
         System.out.println(user.getUserName());

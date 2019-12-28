@@ -5,8 +5,10 @@ import org.dgut.community.entity.ArticleReply;
 import org.dgut.community.repository.article.CommentRepository;
 import org.dgut.community.repository.article.FourmRepository;
 import org.dgut.community.repository.article.ReplyRepository;
+import org.dgut.community.resultenum.Result;
 import org.dgut.community.resultenum.ResultEnum;
 import org.dgut.community.service.article.IReply;
+import org.dgut.community.util.ResultUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -47,13 +49,13 @@ public class ReplyServiceImpl implements IReply {
                 }).orElseThrow(() -> new NotFoundException(ResultEnum.ID_NOT_EXIST));
                 articleReply.setComment(null);
                 replyRepository.delete(articleReply);
-                return ResponseEntity.ok().build();
+                return ResponseEntity.ok(ResultUtil.success());
             }).orElseThrow(() -> new NotFoundException(ResultEnum.ID_NOT_EXIST));
         }).orElseThrow(() -> new NotFoundException(ResultEnum.ID_NOT_EXIST));
     }
 
     @Override
-    public ArticleReply save(Long id, ArticleReply articleReply) {
+    public ResponseEntity<Result> save(Long id, ArticleReply articleReply) {
         return commentRepository.findById(id).map(articleComment -> {
             return fourmRepository.findById(articleComment.getArticle().getArticleId()).map(fourmArticle -> {
                 fourmArticle.setArticleCommentTimes(fourmArticle.getArticleCommentTimes() + 1);
@@ -62,7 +64,8 @@ public class ReplyServiceImpl implements IReply {
                 commentRepository.save(articleComment);
                 replyRepository.save(articleReply);
                 articleReply.setComment(articleComment);
-                return replyRepository.save(articleReply);
+                ArticleReply reply = replyRepository.save(articleReply);
+                return ResponseEntity.ok(ResultUtil.success(reply));
             }).orElseThrow(() -> new NotFoundException(ResultEnum.ID_NOT_EXIST));
         }).orElseThrow(() -> new NotFoundException(ResultEnum.ID_NOT_EXIST));
     }

@@ -1,6 +1,7 @@
 package org.dgut.community.service.article;
 
 import org.dgut.community.entity.FourmArticle;
+import org.dgut.community.resultenum.Result;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -21,5 +22,5 @@ public interface IFourm {
 
 //    FourmArticle updateLike(Long id, int num);
 
-    FourmArticle save(FourmArticle fourmArticle, Long id);
+    ResponseEntity<Result> save(FourmArticle fourmArticle, Long id);
 }

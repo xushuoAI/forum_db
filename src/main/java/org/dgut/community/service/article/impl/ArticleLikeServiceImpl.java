@@ -4,8 +4,10 @@ import org.dgut.community.NotFoundException;
 import org.dgut.community.entity.ArticleLike;
 import org.dgut.community.repository.article.FourmRepository;
 import org.dgut.community.repository.article.LikeRepository;
+import org.dgut.community.resultenum.Result;
 import org.dgut.community.resultenum.ResultEnum;
 import org.dgut.community.service.article.IArticleLike;
+import org.dgut.community.util.ResultUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -21,12 +23,13 @@ public class ArticleLikeServiceImpl implements IArticleLike {
     }
 
     @Override
-    public ResponseEntity<ArticleLike> save(Long articleId, ArticleLike like) {
+    public ResponseEntity<Result> save(Long articleId, ArticleLike like) {
         return fourmRepository.findById(articleId).map(fourmArticle -> {
             fourmArticle.setArticleLike(fourmArticle.getArticleLike() + 1);
             fourmRepository.save(fourmArticle);
             like.setArticle(fourmArticle);
-            return ResponseEntity.ok(likeRepository.save(like));
+            likeRepository.save(like);
+            return ResponseEntity.ok(ResultUtil.success());
         }).orElseThrow(()-> new NotFoundException(ResultEnum.ID_NOT_EXIST));
     }
 
@@ -38,7 +41,7 @@ public class ArticleLikeServiceImpl implements IArticleLike {
             ArticleLike articleLike = likeRepository.findByArticle_ArticleIdAndUserId(articleId, like.getUserId());
             articleLike.setArticle(null);
             likeRepository.delete(articleLike);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(ResultUtil.success());
         }).orElseThrow(()-> new NotFoundException(ResultEnum.ID_NOT_EXIST));
     }
 }

@@ -160,7 +160,7 @@ public class NewsServiceImpl implements INews {
 //                news.setNewsPicture(name + file.getOriginalFilename());
 //            }
             news.setNewsPicture(Util.uploadBase64Image("news", news.getNewsPicture()));
-            news.setPublicTime(LocalDate.parse(Util.getTime()));
+//            news.setPublicTime(LocalDate.parse(Util.getTime()));
             news.setUser(user);
             News news1 = newsRepository.save(news);
             news1.getUser().setUserPassword(null);

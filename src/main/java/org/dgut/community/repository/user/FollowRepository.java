@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface FollowRepository extends JpaRepository<UserFollow, Long> {
+    UserFollow findByFansIdAndStarId(Long fansId, Long starId);
     Page<UserFollow> findByFansId(Long id, Pageable pageable);
     Page<UserFollow> findByStarId(Long id, Pageable pageable);
 }

@@ -3,10 +3,12 @@ package org.dgut.community.controller.user;
 import org.dgut.community.entity.FourmArticle;
 import org.dgut.community.entity.User;
 import org.dgut.community.entity.UserFollow;
+import org.dgut.community.resultenum.Result;
 import org.dgut.community.service.user.impl.FollowServiceImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -24,15 +26,13 @@ public class FollowController {
     }
 
     @PostMapping("/intercept/save")
-    public UserFollow save(@RequestBody UserFollow entity){
+    public ResponseEntity<Result> save(@RequestBody UserFollow entity){
         return service.save(entity);
     }
 
-    @DeleteMapping("/intercept/deleteById/{followId}")
-    public Map<String, Object> deleteById(@PathVariable Long followId){
-        map.clear();
-        map.put("message", service.deleteById(followId));
-        return map;
+    @DeleteMapping("/intercept/deleteById")
+    public ResponseEntity<?> deleteById(@RequestBody UserFollow follow){
+        return service.deleteById(follow);
     }
 
     @GetMapping("/intercept/findFans/{starId}")

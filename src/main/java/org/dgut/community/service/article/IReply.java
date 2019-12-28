@@ -1,6 +1,7 @@
 package org.dgut.community.service.article;
 
 import org.dgut.community.entity.ArticleReply;
+import org.dgut.community.resultenum.Result;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -13,5 +14,5 @@ public interface IReply {
 
     ResponseEntity<?> deleteById(Long id);
 
-    ArticleReply save(Long id, ArticleReply articleReply);
+    ResponseEntity<Result> save(Long id, ArticleReply articleReply);
 }

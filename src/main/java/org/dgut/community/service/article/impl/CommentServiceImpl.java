@@ -5,8 +5,10 @@ import org.dgut.community.entity.ArticleComment;
 import org.dgut.community.repository.article.CommentRepository;
 import org.dgut.community.repository.article.FourmRepository;
 import org.dgut.community.repository.user.UserRepository;
+import org.dgut.community.resultenum.Result;
 import org.dgut.community.resultenum.ResultEnum;
 import org.dgut.community.service.article.IComment;
+import org.dgut.community.util.ResultUtil;
 import org.dgut.community.util.Util;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,30 +33,33 @@ public class CommentServiceImpl implements IComment {
     }
 
     @Override
-    public ArticleComment updateLike(Long id, int num) {
+    public ResponseEntity<Result> updateLike(Long id, int num) {
         return commentRepository.findById(id).map(articleComment -> {
             if (num == 1){
                 articleComment.setCommentLike(articleComment.getCommentLike() + 1);
-                return commentRepository.save(articleComment);
+                commentRepository.save(articleComment);
+                return ResponseEntity.ok(ResultUtil.success());
             }else {
-                if (articleComment.getCommentLike() == 0){
-                    return commentRepository.save(articleComment);
-                }
+//                if (articleComment.getCommentLike() == 0){
+//                    return commentRepository.save(articleComment);
+//                }
                 articleComment.setCommentLike(articleComment.getCommentLike() - 1);
-                return commentRepository.save(articleComment);
+                commentRepository.save(articleComment);
+                return ResponseEntity.ok(ResultUtil.success());
             }
         }).orElseThrow(() -> new NotFoundException(ResultEnum.ID_NOT_EXIST));
     }
 
     @Override
-    public ArticleComment updateTop(Long id, int num) {
+    public ResponseEntity<Result> updateTop(Long id, int num) {
         return commentRepository.findById(id).map(articleComment -> {
             if (num == 1){
                 articleComment.setIsTop(1);
             }else {
                 articleComment.setIsTop(0);
             }
-            return commentRepository.save(articleComment);
+            commentRepository.save(articleComment);
+            return ResponseEntity.ok(ResultUtil.success());
         }).orElseThrow(() -> new NotFoundException(ResultEnum.ID_NOT_EXIST));
     }
 
@@ -66,19 +71,19 @@ public class CommentServiceImpl implements IComment {
                 fourmRepository.save(article);
                 articleComment.setArticle(null);
                 commentRepository.delete(articleComment);
-                return ResponseEntity.ok().build();
+                return ResponseEntity.ok(ResultUtil.success());
             }).orElseThrow(() -> new NotFoundException(ResultEnum.ID_NOT_EXIST));
         }).orElseThrow(() -> new NotFoundException(ResultEnum.ID_NOT_EXIST));
     }
 
     @Override
-    public ArticleComment save(Long articleId, ArticleComment articleComment) {
+    public ResponseEntity<Result> save(Long articleId, ArticleComment articleComment) {
         return fourmRepository.findById(articleId).map(article -> {
             article.setArticleCommentTimes(article.getArticleCommentTimes() + 1);
             articleComment.setArticle(article);
-            articleComment.setCommentCreateTime(LocalDate.parse(Util.getTime()));
             fourmRepository.save(article);
-            return commentRepository.save(articleComment);
+            ArticleComment comment = commentRepository.save(articleComment);
+            return ResponseEntity.ok(ResultUtil.success(comment));
         }).orElseThrow(() -> new NotFoundException(ResultEnum.ID_NOT_EXIST));
     }
 }

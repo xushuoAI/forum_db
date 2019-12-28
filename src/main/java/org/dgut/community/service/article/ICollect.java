@@ -3,6 +3,7 @@ package org.dgut.community.service.article;
 import org.dgut.community.entity.ArticleCollect;
 import org.dgut.community.entity.FourmArticle;
 import org.dgut.community.entity.User;
+import org.dgut.community.resultenum.Result;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -16,5 +17,5 @@ public interface ICollect {
 
     ResponseEntity<?> deleteById(Long id, Long userId);
 
-    ArticleCollect save(ArticleCollect articleCollect);
+    ResponseEntity<Result> save(ArticleCollect articleCollect);
 }

@@ -1,13 +1,16 @@
 package org.dgut.community.service.article.impl;
 
+import org.apache.commons.lang3.StringUtils;
 import org.dgut.community.NotFoundException;
 import org.dgut.community.entity.FourmArticle;
 import org.dgut.community.repository.article.CollectRepository;
 import org.dgut.community.repository.article.FourmRepository;
 import org.dgut.community.repository.article.LikeRepository;
 import org.dgut.community.repository.user.UserRepository;
+import org.dgut.community.resultenum.Result;
 import org.dgut.community.resultenum.ResultEnum;
 import org.dgut.community.service.article.IFourm;
+import org.dgut.community.util.ResultUtil;
 import org.dgut.community.util.Util;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class FourmServiceImpl implements IFourm {
@@ -46,10 +51,10 @@ public class FourmServiceImpl implements IFourm {
     public Page<FourmArticle> findByUserId(Long id, Pageable pageable) {
         Page<FourmArticle> articles = fourmRepository.findByUser_userId(id, pageable);
         for (FourmArticle article : articles){
-//            if (article.getArticlePhoto() != null){
-//                article.setArticlePhoto(Util.getUrl() + article.getUser().getUserName() + "/" + article.getArticlePhoto());
-//            }
             article.setUser(null);
+            if (article.getArticlePhoto() != null){
+                article.setPhotos(article.getArticlePhoto().split(","));
+            }
         }
         return articles;
     }
@@ -61,8 +66,11 @@ public class FourmServiceImpl implements IFourm {
                 user.setUserArticles(user.getUserArticles() - 1);
                 userRepository.save(user);
                 fourmArticle.setUser(null);
+                if (fourmArticle.getArticlePhoto() != null){
+                    Util.deleteFile(fourmArticle.getArticlePhoto());
+                }
                 fourmRepository.delete(fourmArticle);
-                return ResponseEntity.ok().build();
+                return ResponseEntity.ok(ResultUtil.success());
             }).orElseThrow(() -> new NotFoundException(ResultEnum.ID_NOT_EXIST));
         }).orElseThrow(() -> new NotFoundException(ResultEnum.ID_NOT_EXIST));
     }
@@ -77,43 +85,19 @@ public class FourmServiceImpl implements IFourm {
         }).orElseThrow(() -> new NotFoundException(ResultEnum.ID_NOT_EXIST));
     }
 
-//    @Override
-//    public FourmArticle updateLike(Long id, int num) {
-//        return fourmRepository.findById(id).map(article -> {
-//            if (num == 1) {
-//                article.setArticleLike(article.getArticleLike() + 1);
-//            } else {
-//                if (article.getArticleLike() == 0) {
-//                    article = fourmRepository.save(article);
-//                    article.getUser().setUserPassword(null);
-//                    return article;
-//                }
-//                article.setArticleLike(article.getArticleLike() - 1);
-//            }
-//            article = fourmRepository.save(article);
-//            article.getUser().setUserPassword(null);
-//            return article;
-//        }).orElseThrow(() -> new NotFoundException(ResultEnum.ID_NOT_EXIST));
-//    }
-
     @Override
-    public FourmArticle save(FourmArticle fourmArticle, Long id) {
-//        String date = "" + new Date();
-//        date = DigestUtils.md5DigestAsHex(date.getBytes());
-//        String name = "article" + date;
+    public ResponseEntity<Result> save(FourmArticle fourmArticle, Long id) {
         return userRepository.findById(id).map(user -> {
-//            if (file != null) {
-//                Util.upload(file, user.getUserName(), name);
-//                fourmArticle.setArticlePhoto(name + file.getOriginalFilename());
-//            }
-            fourmArticle.setArticlePhoto(Util.uploadBase64Image("article", fourmArticle.getArticlePhoto()));
-            fourmArticle.setArticlePublicTime(LocalDate.parse(Util.getTime()));
+            fourmArticle.setArticlePhoto(upload(fourmArticle.getArticlePhoto()));
             user.setUserArticles(user.getUserArticles() + 1);
             userRepository.save(user);
             fourmArticle.setUser(user);
             FourmArticle article = fourmRepository.save(fourmArticle);
             article.getUser().setUserPassword(null);
-            return article;
+            if (article.getArticlePhoto() != null){
+                article.setPhotos(article.getArticlePhoto().split(","));
+            }
+            return ResponseEntity.ok(ResultUtil.success(article));
         }).orElseThrow(() -> new NotFoundException(ResultEnum.ID_NOT_EXIST));
     }
 
@@ -126,7 +110,22 @@ public class FourmServiceImpl implements IFourm {
                 article.setCollect(1);
             }
             article.getUser().setUserPassword(null);
+            if (article.getArticlePhoto() != null){
+                article.setPhotos(article.getArticlePhoto().split(","));
+            }
         }
         return articles;
+    }
+
+    String upload(String base64){
+        String[] splits = base64.split("@");
+        List<String> joins = new ArrayList<>();
+        for (String split : splits){
+            split = Util.uploadBase64Image("article", split);
+            joins.add(split);
+        }
+        String join = StringUtils.join(joins, ",");
+//        System.out.println(join);
+        return join;
     }
 }

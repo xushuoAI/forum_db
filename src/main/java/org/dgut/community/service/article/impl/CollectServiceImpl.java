@@ -7,8 +7,10 @@ import org.dgut.community.entity.User;
 import org.dgut.community.repository.article.CollectRepository;
 import org.dgut.community.repository.article.FourmRepository;
 import org.dgut.community.repository.user.UserRepository;
+import org.dgut.community.resultenum.Result;
 import org.dgut.community.resultenum.ResultEnum;
 import org.dgut.community.service.article.ICollect;
+import org.dgut.community.util.ResultUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -77,16 +79,17 @@ public class CollectServiceImpl implements ICollect {
             fourmRepository.save(article);
             ArticleCollect collect = collectRepository.findByArticleIdAndUserId(articleId, userId);
             collectRepository.delete(collect);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(ResultUtil.success());
         }).orElseThrow(()-> new NotFoundException(ResultEnum.ID_NOT_EXIST));
     }
 
     @Override
-    public ArticleCollect save(ArticleCollect articleCollect) {
+    public ResponseEntity<Result> save(ArticleCollect articleCollect) {
         return fourmRepository.findById(articleCollect.getArticleId()).map(article -> {
             article.setArticleCollect(article.getArticleCollect() + 1);
             fourmRepository.save(article);
-            return collectRepository.save(articleCollect);
+            ArticleCollect collect = collectRepository.save(articleCollect);
+            return ResponseEntity.ok(ResultUtil.success(collect));
         }).orElseThrow(()-> new NotFoundException(ResultEnum.ID_NOT_EXIST));
     }
 }

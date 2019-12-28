@@ -17,7 +17,8 @@ public class ExceptionHandle {
             NotFoundException notFoundException = (NotFoundException)e;
             return ResultUtil.error(notFoundException.getCode(), notFoundException.getMessage());
         }else {
-            return ResultUtil.error(-1,"未知错误");
+            e.printStackTrace();
+            return ResultUtil.error(-1,"请求错误");
         }
     }
 
