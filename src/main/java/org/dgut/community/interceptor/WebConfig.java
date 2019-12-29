@@ -23,10 +23,7 @@ public class WebConfig extends WebMvcConfigurationSupport {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**")
-                .addResourceLocations("classpath:/resources/")
-                .addResourceLocations("classpath:/static/")
-                .addResourceLocations("classpath:/public/")
-                .addResourceLocations("classpath:/templates/");
+                .addResourceLocations("file:D:\\Workspace-STS4\\springboot-community\\src\\main\\resources\\templates\\");
         super.addResourceHandlers(registry);
     }
 

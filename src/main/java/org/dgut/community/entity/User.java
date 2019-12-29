@@ -30,6 +30,9 @@ public class User implements Serializable {
     @Transient
     private String newPassword;
 
+    @Transient
+    private int isFocus;
+
     private String userHeadImg;
 
     private int userFocus;

@@ -14,6 +14,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -44,6 +45,8 @@ public class FourmArticle implements Serializable {
 
     private int articleCollect;
 
+    @Lob
+    @Column(columnDefinition = "text")
     private String articlePhoto;
 
     private int articleCommentTimes;
@@ -55,7 +58,7 @@ public class FourmArticle implements Serializable {
     private int collect;
 
     @Transient
-    private String[] photos;
+    private List<Image> photos;
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "article")

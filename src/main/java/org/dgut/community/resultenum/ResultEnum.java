@@ -10,6 +10,7 @@ public enum ResultEnum {
     ID_NOT_EXIST(-1,"没有该Id"),
     PASSWORD_IS_NULL(-1, "密码不能为空"),
     NOT_LOGIN(-1, "请先登录"),
+    NOT_REPEAT(-1, "不可以重复操作"),
     ;
 
     private Integer code;

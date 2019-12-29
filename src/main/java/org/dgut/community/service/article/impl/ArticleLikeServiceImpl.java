@@ -24,6 +24,9 @@ public class ArticleLikeServiceImpl implements IArticleLike {
 
     @Override
     public ResponseEntity<Result> save(Long articleId, ArticleLike like) {
+        if (likeRepository.findByArticle_ArticleIdAndUserId(articleId, like.getUserId()) != null){
+            throw new NotFoundException(ResultEnum.NOT_REPEAT);
+        }
         return fourmRepository.findById(articleId).map(fourmArticle -> {
             fourmArticle.setArticleLike(fourmArticle.getArticleLike() + 1);
             fourmRepository.save(fourmArticle);

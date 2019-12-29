@@ -85,6 +85,9 @@ public class CollectServiceImpl implements ICollect {
 
     @Override
     public ResponseEntity<Result> save(ArticleCollect articleCollect) {
+        if (collectRepository.findByArticleIdAndUserId(articleCollect.getArticleId(), articleCollect.getUserId()) != null){
+            throw new NotFoundException(ResultEnum.NOT_REPEAT);
+        }
         return fourmRepository.findById(articleCollect.getArticleId()).map(article -> {
             article.setArticleCollect(article.getArticleCollect() + 1);
             fourmRepository.save(article);

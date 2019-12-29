@@ -5,6 +5,7 @@ import org.dgut.community.entity.Report;
 import org.dgut.community.repository.user.ReportRepository;
 import org.dgut.community.resultenum.ResultEnum;
 import org.dgut.community.service.user.IReport;
+import org.dgut.community.util.ResultUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +26,7 @@ public class ReportServiceImpl implements IReport {
     public ResponseEntity<?> deleteById(Long id) {
         return reportRepository.findById(id).map(report -> {
             reportRepository.delete(report);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(ResultUtil.success());
         }).orElseThrow(()-> new NotFoundException(ResultEnum.ID_NOT_EXIST));
     }
 

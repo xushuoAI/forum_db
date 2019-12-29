@@ -1,6 +1,7 @@
 package org.dgut.community.controller.article;
 
 import org.dgut.community.entity.FourmArticle;
+import org.dgut.community.entity.User;
 import org.dgut.community.resultenum.Result;
 import org.dgut.community.service.article.impl.FourmServiceImpl;
 import org.dgut.community.util.Util;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,30 +32,48 @@ public class FourmController {
         return service.save(entity, id);
     }
 
-    @GetMapping("/findAll/{userId}")
-    public Page<FourmArticle> findAll(@PathVariable Long userId,
+    @GetMapping("/findAll")
+    public Page<FourmArticle> findAll(HttpSession session,
                                       @RequestParam(defaultValue = "0") int num,
                                       @RequestParam(defaultValue = "15") int size){
+        User user = (User)session.getAttribute("user");
         Sort sort = Sort.by(Sort.Direction.DESC, "articleId");
         Pageable pageable = PageRequest.of(num, size, sort);
-        return service.findAll(userId, pageable);
+        if (user != null){
+            return service.findAll(user.getUserId(), pageable);
+        }else {
+            Long userId = Long.parseLong("0");
+            return service.findAll(userId, pageable);
+        }
     }
 
-    @GetMapping("/findByContent/{userId}")
-    public Page<FourmArticle> findByContent(@PathVariable Long userId,
+    @GetMapping("/findByContent")
+    public Page<FourmArticle> findByContent(HttpSession session,
                                             @RequestBody FourmArticle fourmArticle,
                                             @RequestParam(defaultValue = "0") int num,
                                             @RequestParam(defaultValue = "15") int size){
+        User user = (User)session.getAttribute("user");
         Sort sort = Sort.by(Sort.Direction.DESC, "articleId");
         Pageable pageable = PageRequest.of(num, size, sort);
-        return service.findByArticleContentLike(userId, fourmArticle.getArticleContent(), pageable);
+        if (user != null){
+            return service.findByArticleContentLike(user.getUserId(), fourmArticle.getArticleContent(), pageable);
+        }else {
+            Long userId = Long.parseLong("0");
+            return service.findByArticleContentLike(userId, fourmArticle.getArticleContent(), pageable);
+        }
     }
 
-    @GetMapping("/findByUserId/{userId}")
-    public Page<FourmArticle> findByUserId(@PathVariable Long userId, @RequestParam(defaultValue = "0") int num, @RequestParam(defaultValue = "15") int size){
+    @GetMapping("/findByUserId")
+    public Page<FourmArticle> findByUserId(HttpSession session, @RequestParam(defaultValue = "0") int num, @RequestParam(defaultValue = "15") int size){
+        User user = (User)session.getAttribute("user");
         Sort sort = Sort.by(Sort.Direction.DESC, "articleId");
         Pageable pageable = PageRequest.of(num, size, sort);
-        return service.findByUserId(userId, pageable);
+        if (user != null){
+            return service.findByUserId(user.getUserId(), pageable);
+        }else {
+            Long userId = Long.parseLong("0");
+            return service.findByUserId(userId, pageable);
+        }
     }
 
     @PutMapping("/intercept/updateById/{id}")

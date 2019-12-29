@@ -1,11 +1,11 @@
 package org.dgut.community.controller.user;
 
 import org.dgut.community.entity.Report;
+import org.dgut.community.resultenum.Result;
 import org.dgut.community.service.user.impl.ReportServiceImpl;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.dgut.community.util.ResultUtil;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/userReport")
@@ -17,7 +17,19 @@ public class ReportController {
     }
 
     @PostMapping("/intercept/save")
-    public Report save(@RequestBody Report entity){
-        return service.save(entity);
+    public ResponseEntity<Result> save(@RequestBody Report entity){
+        Report report = service.save(entity);
+        return ResponseEntity.ok(ResultUtil.success(report));
+    }
+
+    @PutMapping("/intercept/updateById/{reportId}")
+    public ResponseEntity<Result> updateById(@PathVariable Long reportId){
+        Report report = service.updateById(reportId);
+        return ResponseEntity.ok(ResultUtil.success(report));
+    }
+
+    @DeleteMapping("/intercept/deleteById/{reportId}")
+    public ResponseEntity<?> deleteById(@PathVariable Long reportId){
+        return service.deleteById(reportId);
     }
 }
