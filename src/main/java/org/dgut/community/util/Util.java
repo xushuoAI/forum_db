@@ -1,6 +1,8 @@
 package org.dgut.community.util;
 
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.dgut.community.entity.FourmArticle;
+import org.dgut.community.entity.Image;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.context.WebServerInitializedEvent;
@@ -17,10 +19,7 @@ import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
-import java.util.UUID;
+import java.util.*;
 
 @Component
 public class Util implements ApplicationListener<WebServerInitializedEvent> {
@@ -114,7 +113,21 @@ public class Util implements ApplicationListener<WebServerInitializedEvent> {
         }
     }
 
-    public static void deleteFile(String path){
+    public static final void setArticlePhotos(FourmArticle article){
+        article.getUser().setUserPassword(null);
+        if (article.getArticlePhoto() != null){
+            String[] strings = article.getArticlePhoto().split(",");
+            List<Image> photo = new ArrayList<>();
+            for (String string : strings){
+                Image image = new Image();
+                image.setImageUrl(string);
+                photo.add(image);
+            }
+            article.setPhotos(photo);
+        }
+    }
+
+    public static final void deleteFile(String path){
         String[] splits = path.split(",");
         String filePath = "D:/Workspace-STS4/springboot-community/src/main/resources/templates/";
         for (String split : splits){

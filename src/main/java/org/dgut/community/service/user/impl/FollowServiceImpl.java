@@ -92,6 +92,10 @@ public class FollowServiceImpl implements IFollow {
 
     @Override
     public ResponseEntity<Result> save(UserFollow userFollow) {
+        UserFollow follow1 = followRepository.findByFansIdAndStarId(userFollow.getFansId(), userFollow.getStarId());
+        if (follow1 != null){
+            throw new NotFoundException(ResultEnum.NOT_REPEAT);
+        }
         return userRepository.findById(userFollow.getStarId()).map(user -> {
             return userRepository.findById(userFollow.getFansId()).map(user1 -> {
                 user1.setUserFocus(user1.getUserFocus() + 1);

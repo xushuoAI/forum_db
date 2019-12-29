@@ -63,17 +63,11 @@ public class FourmController {
         }
     }
 
-    @GetMapping("/findByUserId")
-    public Page<FourmArticle> findByUserId(HttpSession session, @RequestParam(defaultValue = "0") int num, @RequestParam(defaultValue = "15") int size){
-        User user = (User)session.getAttribute("user");
+    @GetMapping("/findByUserId/{userId}")
+    public Page<FourmArticle> findByUserId(@PathVariable Long userId, @RequestParam(defaultValue = "0") int num, @RequestParam(defaultValue = "15") int size){
         Sort sort = Sort.by(Sort.Direction.DESC, "articleId");
         Pageable pageable = PageRequest.of(num, size, sort);
-        if (user != null){
-            return service.findByUserId(user.getUserId(), pageable);
-        }else {
-            Long userId = Long.parseLong("0");
-            return service.findByUserId(userId, pageable);
-        }
+        return service.findByUserId(userId, pageable);
     }
 
     @PutMapping("/intercept/updateById/{id}")

@@ -27,24 +27,10 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<Result> login(@RequestBody User user, HttpSession session){
         return service.login(user.getUserName(), user.getUserPassword(), session);
-//        if (user != null){
-//            map.clear();
-//            user.setUserPassword(null);
-//            map.put("message", "登录成功");
-//            map.put("user", user);
-//            session.setAttribute("user", user);
-////            User user1 = (User) session.getAttribute("user");
-////            System.out.println(user1.getUserName());
-//        }else {
-//            throw new NotFoundException(ResultEnum.USER_PASSWORS_MISTAKE);
-//        }
-//        return map;
     }
     @GetMapping("/logout")
     public ResponseEntity<Result> logout(HttpSession session) {
         session.removeAttribute("user");
-//        map.clear();
-//        map.put("message", "注销成功");
         return ResponseEntity.ok(ResultUtil.error(0, "注销成功"));
     }
 
@@ -59,6 +45,12 @@ public class UserController {
         return ResponseEntity.ok(ResultUtil.success(user));
     }
 
+    @GetMapping("/findByUserId/{userId}")
+    public ResponseEntity<Result> findByUserId(@PathVariable Long userId){
+        User user = service.findById(userId);
+        return ResponseEntity.ok(ResultUtil.success(user));
+    }
+
     @GetMapping("/findByUserName")
     public User findByUserName(@RequestBody User user){
         return service.findByUserName(user.getUserName());
@@ -70,13 +62,15 @@ public class UserController {
     }
 
     @PutMapping("/intercept/updateById/{id}")
-    public ResponseEntity<Result> updateById(@PathVariable Long id, @RequestBody User newUser){
-        return service.updateById(id, newUser);
+    public ResponseEntity<Result> updateById(@PathVariable Long id, @RequestBody User newUser, HttpSession session){
+        User user = (User)session.getAttribute("user");
+        return service.updateById(user.getUserId(), newUser);
     }
 
     @PutMapping("/intercept/updatePassword/{id}")
-    public ResponseEntity<Result> updatePassword(@PathVariable Long id, @RequestBody User newUser){
-        return service.updatePassword(id, newUser);
+    public ResponseEntity<Result> updatePassword(@PathVariable Long id, @RequestBody User newUser, HttpSession session){
+        User user = (User)session.getAttribute("user");
+        return service.updatePassword(user.getUserId(), newUser);
     }
 
     @DeleteMapping("/intercept/deleteById/{id}")

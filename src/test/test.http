@@ -20,6 +20,12 @@ Content-Type: application/json
   "userPassword": "123456"
 }
 ###
+根据userId查询用户
+###
+GET http://web.springboot.cn/user/findByUserId/5
+###
+
+###
 根据sessionid查询用户
 ###
 GET http://web.springboot.cn/user/getUser/53DFEFBA26BF590F65B728E1C06E4753
@@ -108,9 +114,14 @@ Content-Type: application/json
 }
 
 ###
+根据用户id查询用户点赞的帖子，num默认为0，即第一页，size默认为15，表示页面的大小
+###
+GET http://web.springboot.cn/articleLike/findArticle/6?num=&size=
+
+###
 根据帖子的内容模糊查询，传入用户id，如下面的1，判断该用户是否已经点赞或收藏了帖子，num默认为0，即第一页，size默认为15，表示页面的大小
 ###
-GET http://web.springboot.cn/articleFourm/findByContent/1?num=0&size=2
+GET http://web.springboot.cn/articleFourm/findByContent?num=0&size=2
 Content-Type: application/json
 
 {
@@ -120,7 +131,7 @@ Content-Type: application/json
 ###
 查询所有帖子，传入用户id，如下面的1，判断该用户是否已经点赞或收藏了帖子，num默认为0，即第一页，size默认为15，表示页面的大小
 ###
-GET http://web.springboot.cn/articleFourm/findAll/6?num=0&size=2
+GET http://web.springboot.cn/articleFourm/findAll?num=0&size=2
 
 ###
 根据用户id查询用户发的帖子，num默认为0，即第一页，size默认为15，表示页面的大小
@@ -207,7 +218,7 @@ GET http://web.springboot.cn/articleCollect/intercept/findArticle/2?num=&size=
 ###
 根据用户id查询用户收藏的帖子，传入用户id，如下面的1，num默认为0，即第一页，size默认为15，表示页面的大小
 ###
-GET http://web.springboot.cn/articleCollect/intercept/findUser/1?num=&size=
+GET http://web.springboot.cn/articleCollect/intercept/findUser/6?num=&size=
 
 ###
 
@@ -237,6 +248,6 @@ GET http://web.springboot.cn/userFollow/intercept/findFans/1?num=0&size=1
 
 根据用户id查询粉丝，num默认为0，即第一页，size默认为15，表示页面的大小
 ###
-GET http://web.springboot.cn/userFollow/intercept/findUser/3?num=0&size=2
+GET http://web.springboot.cn/userFollow/intercept/findUser/3?num=0&size=
 
 ###

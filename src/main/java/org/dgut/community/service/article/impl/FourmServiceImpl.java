@@ -54,17 +54,7 @@ public class FourmServiceImpl implements IFourm {
     public Page<FourmArticle> findByUserId(Long id, Pageable pageable) {
         Page<FourmArticle> articles = fourmRepository.findByUser_userId(id, pageable);
         for (FourmArticle article : articles){
-            article.setUser(null);
-            if (article.getArticlePhoto() != null){
-                String[] strings = article.getArticlePhoto().split(",");
-                List<Image> photo = new ArrayList<>();
-                for (String string : strings){
-                    Image image = new Image();
-                    image.setImageUrl(string);
-                    photo.add(image);
-                }
-                article.setPhotos(photo);
-            }
+            Util.setArticlePhotos(article);
         }
         return articles;
     }
@@ -103,17 +93,7 @@ public class FourmServiceImpl implements IFourm {
             userRepository.save(user);
             fourmArticle.setUser(user);
             FourmArticle article = fourmRepository.save(fourmArticle);
-            article.getUser().setUserPassword(null);
-            if (article.getArticlePhoto() != null){
-                String[] strings = article.getArticlePhoto().split(",");
-                List<Image> photo = new ArrayList<>();
-                for (String string : strings){
-                    Image image = new Image();
-                    image.setImageUrl(string);
-                    photo.add(image);
-                }
-                article.setPhotos(photo);
-            }
+            Util.setArticlePhotos(article);
             return ResponseEntity.ok(ResultUtil.success(article));
         }).orElseThrow(() -> new NotFoundException(ResultEnum.ID_NOT_EXIST));
     }
@@ -121,17 +101,7 @@ public class FourmServiceImpl implements IFourm {
     Page<FourmArticle> addLikeAndCollect(Page<FourmArticle> articles, Long userId){
         if (userId == 0){
             for (FourmArticle article : articles) {
-                article.getUser().setUserPassword(null);
-                if (article.getArticlePhoto() != null){
-                    String[] strings = article.getArticlePhoto().split(",");
-                    List<Image> photo = new ArrayList<>();
-                    for (String string : strings){
-                        Image image = new Image();
-                        image.setImageUrl(string);
-                        photo.add(image);
-                    }
-                    article.setPhotos(photo);
-                }
+                Util.setArticlePhotos(article);
             }
         }else {
             for (FourmArticle article : articles) {
@@ -144,17 +114,7 @@ public class FourmServiceImpl implements IFourm {
                 if (followRepository.findByFansIdAndStarId(userId, article.getUser().getUserId()) != null){
                     article.getUser().setIsFocus(1);
                 }
-                article.getUser().setUserPassword(null);
-                if (article.getArticlePhoto() != null){
-                    String[] strings = article.getArticlePhoto().split(",");
-                    List<Image> photo = new ArrayList<>();
-                    for (String string : strings){
-                        Image image = new Image();
-                        image.setImageUrl(string);
-                        photo.add(image);
-                    }
-                    article.setPhotos(photo);
-                }
+                Util.setArticlePhotos(article);
             }
         }
 

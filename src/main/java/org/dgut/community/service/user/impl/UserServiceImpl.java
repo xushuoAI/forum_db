@@ -23,6 +23,14 @@ public class UserServiceImpl implements IUser {
     }
 
     @Override
+    public User findById(Long userId) {
+        return userRepository.findById(userId).map(user -> {
+            user.setUserPassword(null);
+            return user;
+        }).orElseThrow(()-> new NotFoundException(ResultEnum.USER_NOT_EXIST));
+    }
+
+    @Override
     public User findByUserName(String userName) {
         User user = userRepository.findByUserName(userName);
         if (user == null){

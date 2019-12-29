@@ -11,6 +11,7 @@ import org.dgut.community.resultenum.Result;
 import org.dgut.community.resultenum.ResultEnum;
 import org.dgut.community.service.article.ICollect;
 import org.dgut.community.util.ResultUtil;
+import org.dgut.community.util.Util;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -47,7 +48,7 @@ public class CollectServiceImpl implements ICollect {
         };
         List<FourmArticle> fourmArticles = fourmRepository.findAllById(longs);
         for (FourmArticle fourmArticle : fourmArticles){
-            fourmArticle.getUser().setUserPassword(null);
+            Util.setArticlePhotos(fourmArticle);
         }
         return fourmArticles;
     }
