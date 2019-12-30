@@ -25,7 +25,9 @@ public class ArticleLikeController {
     }
 
     @PostMapping("/intercept/save/{articleId}")
-    public ResponseEntity<Result> save(@PathVariable Long articleId, @RequestBody ArticleLike like){
+    public ResponseEntity<Result> save(@PathVariable Long articleId, @RequestBody ArticleLike like, HttpSession session){
+        User user = (User) session.getAttribute("user");
+        like.setUserId(user.getUserId());
         return service.save(articleId, like);
     }
 

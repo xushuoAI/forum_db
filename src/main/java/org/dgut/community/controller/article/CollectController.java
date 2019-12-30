@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +28,9 @@ public class CollectController {
     }
 
     @PostMapping("/intercept/save")
-    public ResponseEntity<Result> save(@RequestBody ArticleCollect entity){
+    public ResponseEntity<Result> save(@RequestBody ArticleCollect entity, HttpSession session){
+        User user = (User) session.getAttribute("user");
+        entity.setUserId(user.getUserId());
         return service.save(entity);
     }
 

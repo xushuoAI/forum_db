@@ -100,7 +100,7 @@ POST http://web.springboot.cn/articleLike/intercept/save/10
 Content-Type: application/json
 
 {
-  "userId": "1"
+  "userId": "4"
 }
 
 ###
@@ -121,7 +121,7 @@ GET http://web.springboot.cn/articleLike/findArticle/6?num=&size=
 ###
 根据帖子的内容模糊查询，传入用户id，如下面的1，判断该用户是否已经点赞或收藏了帖子，num默认为0，即第一页，size默认为15，表示页面的大小
 ###
-GET http://web.springboot.cn/articleFourm/findByContent
+GET http://web.springboot.cn/articleFourm/findByContent?num=&size=
 Content-Type: application/json
 
 {
@@ -131,7 +131,7 @@ Content-Type: application/json
 ###
 根据帖子的内容模糊查询，传入用户id，如下面的1，判断该用户是否已经点赞或收藏了帖子，num默认为0，即第一页，size默认为15，表示页面的大小
 ###
-GET http://web.springboot.cn/articleFourm/findByContent2?articleContent=a
+GET http://web.springboot.cn/articleFourm/findByContent2?articleContent=a&num=&size=
 
 ###
 查询所有帖子，传入用户id，如下面的1，判断该用户是否已经点赞或收藏了帖子，num默认为0，即第一页，size默认为15，表示页面的大小
