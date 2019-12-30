@@ -65,6 +65,22 @@ public class FourmController {
         }
     }
 
+    @GetMapping("/findByContent2")
+    public Page<FourmArticle> findByContent2(HttpSession session,
+                                             FourmArticle fourmArticle,
+                                            @RequestParam(defaultValue = "0") int num,
+                                            @RequestParam(defaultValue = "15") int size){
+        User user = (User)session.getAttribute("user");
+        Sort sort = Sort.by(Sort.Direction.DESC, "articleId");
+        Pageable pageable = PageRequest.of(num, size, sort);
+        if (user != null){
+            return service.findByArticleContentLike(user.getUserId(), fourmArticle.getArticleContent(), pageable);
+        }else {
+            Long userId = Long.parseLong("0");
+            return service.findByArticleContentLike(userId, fourmArticle.getArticleContent(), pageable);
+        }
+    }
+
     @GetMapping("/findByArticleId/{articleId}")
     public ResponseEntity<Result> findByArticleId(@PathVariable Long articleId){
         return ResponseEntity.ok(ResultUtil.success(service.findByArticleId(articleId)));

@@ -129,6 +129,11 @@ Content-Type: application/json
 }
 
 ###
+根据帖子的内容模糊查询，传入用户id，如下面的1，判断该用户是否已经点赞或收藏了帖子，num默认为0，即第一页，size默认为15，表示页面的大小
+###
+GET http://web.springboot.cn/articleFourm/findByContent2?articleContent=a
+
+###
 查询所有帖子，传入用户id，如下面的1，判断该用户是否已经点赞或收藏了帖子，num默认为0，即第一页，size默认为15，表示页面的大小
 ###
 GET http://web.springboot.cn/articleFourm/findAll?num=0&size=2
@@ -193,7 +198,7 @@ DELETE http://web.springboot.cn/articleReply/intercept/deleteById/2
 ###
 根据评论的id，查找评论的评论，num默认为0，即第一页，size默认为15，表示页面的大小
 ###
-GET http://web.springboot.cn/articleReply/findByCommentId/5?num=&size=
+GET http://web.springboot.cn/articleReply/findByCommentId/22?num=&size=
 ###
 收藏帖子
 ###

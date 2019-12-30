@@ -83,9 +83,9 @@ public class ReplyServiceImpl implements IReply {
 
     User findByUserName(String userName) {
         User user = userRepository.findByUserName(userName);
-        if (user == null){
-            throw new NotFoundException(ResultEnum.USER_NOT_EXIST);
-        }
+//        if (user == null){
+//            throw new NotFoundException(ResultEnum.USER_NOT_EXIST);
+//        }
         user.setUserPassword(null);
         return user;
     }
