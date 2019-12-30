@@ -1,10 +1,13 @@
 package org.dgut.community.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Table(name = "article_comment_reply")
@@ -15,8 +18,6 @@ public class ArticleReply implements Serializable {
     private Long id;
 
     private int replyType;
-
-    private Long replyId;
 
     private String toUserName;
 
@@ -30,4 +31,12 @@ public class ArticleReply implements Serializable {
     @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "commentId")
     private ArticleComment comment;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date replyCreateTime;
+
+    @Transient
+    private String userHeadImg;
 }

@@ -16,8 +16,9 @@ public class Report implements Serializable {
     @Column(nullable = false)
     private Long userId;
 
-    @Column(nullable = false)
     private Long articleId;
+
+    private Long commentId;
 
     @Column(nullable = false)
     private Long reporterId;
@@ -26,5 +27,5 @@ public class Report implements Serializable {
     private String reportReason;
 
     @Column(nullable = false)
-    private int reprtManage;
+    private int reportManage;
 }

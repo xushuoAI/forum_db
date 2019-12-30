@@ -2,6 +2,7 @@ package org.dgut.community.service.article.impl;
 
 import org.dgut.community.NotFoundException;
 import org.dgut.community.entity.ArticleComment;
+import org.dgut.community.entity.User;
 import org.dgut.community.repository.article.CommentRepository;
 import org.dgut.community.repository.article.FourmRepository;
 import org.dgut.community.repository.user.UserRepository;
@@ -9,27 +10,32 @@ import org.dgut.community.resultenum.Result;
 import org.dgut.community.resultenum.ResultEnum;
 import org.dgut.community.service.article.IComment;
 import org.dgut.community.util.ResultUtil;
-import org.dgut.community.util.Util;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-
 @Service
 public class CommentServiceImpl implements IComment {
     private CommentRepository commentRepository;
     private FourmRepository fourmRepository;
+    private UserRepository userRepository;
 
-    public CommentServiceImpl(CommentRepository commentRepository, FourmRepository fourmRepository) {
+    public CommentServiceImpl(CommentRepository commentRepository, FourmRepository fourmRepository, UserRepository userRepository) {
         this.commentRepository = commentRepository;
         this.fourmRepository = fourmRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
     public Page<ArticleComment> findByArticleId(Long articleId, Pageable pageable) {
-        return commentRepository.findByArticle_articleId(articleId, pageable);
+        Page<ArticleComment> comments = commentRepository.findByArticle_articleId(articleId, pageable);
+        for (ArticleComment comment : comments){
+            User user = findByUserId(comment.getUserId());
+            comment.setUserName(user.getUserName());
+            comment.setUserHeadImg(user.getUserHeadImg());
+        }
+        return comments;
     }
 
     @Override
@@ -85,5 +91,12 @@ public class CommentServiceImpl implements IComment {
             ArticleComment comment = commentRepository.save(articleComment);
             return ResponseEntity.ok(ResultUtil.success(comment));
         }).orElseThrow(() -> new NotFoundException(ResultEnum.ID_NOT_EXIST));
+    }
+
+    User findByUserId(Long userId) {
+        return userRepository.findById(userId).map(user -> {
+            user.setUserPassword(null);
+            return user;
+        }).orElseThrow(()-> new NotFoundException(ResultEnum.USER_NOT_EXIST));
     }
 }

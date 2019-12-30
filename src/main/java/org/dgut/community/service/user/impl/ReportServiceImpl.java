@@ -6,6 +6,8 @@ import org.dgut.community.repository.user.ReportRepository;
 import org.dgut.community.resultenum.ResultEnum;
 import org.dgut.community.service.user.IReport;
 import org.dgut.community.util.ResultUtil;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +20,12 @@ public class ReportServiceImpl implements IReport {
     }
 
     @Override
-    public Report findById(Long id) {
+    public Page<Report> findAll(Pageable pageable) {
+        return reportRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<Report> findByReportReasonLike(String reason, Pageable pageable) {
         return null;
     }
 
@@ -33,7 +40,7 @@ public class ReportServiceImpl implements IReport {
     @Override
     public Report updateById(Long id) {
         return reportRepository.findById(id).map(report -> {
-            report.setReprtManage(1);
+            report.setReportManage(1);
             return reportRepository.save(report);
         }).orElseThrow(()-> new NotFoundException(ResultEnum.ID_NOT_EXIST));
     }

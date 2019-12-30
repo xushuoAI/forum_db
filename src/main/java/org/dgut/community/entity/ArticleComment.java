@@ -50,4 +50,10 @@ public class ArticleComment implements Serializable {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "comment")
     private Set<ArticleReply> replies;
+
+    @Transient
+    private String userName;
+
+    @Transient
+    private String userHeadImg;
 }

@@ -1,6 +1,7 @@
 package org.dgut.community.controller.article;
 
 import org.dgut.community.entity.ArticleComment;
+import org.dgut.community.entity.User;
 import org.dgut.community.resultenum.Result;
 import org.dgut.community.service.article.impl.CommentServiceImpl;
 import org.springframework.data.domain.Page;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,7 +26,9 @@ public class CommentController {
     }
 
     @PostMapping("/intercept/save/{articleId}")
-    public ResponseEntity<Result> save(@PathVariable Long articleId, @RequestBody ArticleComment entity){
+    public ResponseEntity<Result> save(@PathVariable Long articleId, @RequestBody ArticleComment entity, HttpSession session){
+        User user = (User) session.getAttribute("user");
+        entity.setUserId(user.getUserId());
         return service.save(articleId, entity);
     }
 

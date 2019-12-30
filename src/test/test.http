@@ -181,9 +181,7 @@ Content-Type: application/json
 
 {
   "replyType":"1",
-  "replyId":"1",
   "toUserName":"zszs",
-  "fromUserName":"dsadada",
   "replyContent":"测试"
 }
 
@@ -258,5 +256,36 @@ GET http://web.springboot.cn/userFollow/intercept/findFans/1?num=0&size=1
 根据用户id查询粉丝，num默认为0，即第一页，size默认为15，表示页面的大小
 ###
 GET http://web.springboot.cn/userFollow/intercept/findUser/3?num=0&size=
+
+###
+举报帖子或评论，传入帖子id，或评论id，被举报用户id，举报原因
+###
+POST http://web.springboot.cn/userReport/intercept/save
+Content-Type: application/json
+
+{
+  "userId": "2",
+  "articleId": "2",
+  "commentId": "",
+  "reportReason": "测试"
+}
+
+###
+根据举报id删除举报
+http://web.springboot.cn/userReport/intercept/deleteById/{reportId}
+###
+DELETE http://web.springboot.cn/userReport/intercept/deleteById/3
+
+###
+根据举报id处理举报
+http://web.springboot.cn/userReport/intercept/updateById/{reportId}
+###
+PUT http://web.springboot.cn/userReport/intercept/updateById/2
+
+###
+查询所有举报信息
+num默认为0，即第一页，size默认为15，表示页面的大小
+###
+GET http://web.springboot.cn/userReport/intercept/findAll?num=&size=
 
 ###
