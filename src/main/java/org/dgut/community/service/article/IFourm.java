@@ -10,6 +10,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface IFourm {
+
+    FourmArticle findByArticleId(Long articleId);
+
     Page<FourmArticle> findByArticleContentLike(Long userId, String articleContent, Pageable pageable);
 
     Page<FourmArticle> findAll(Long userId, Pageable pageable);

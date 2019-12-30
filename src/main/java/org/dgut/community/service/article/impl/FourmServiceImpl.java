@@ -39,6 +39,14 @@ public class FourmServiceImpl implements IFourm {
     }
 
     @Override
+    public FourmArticle findByArticleId(Long articleId) {
+        return fourmRepository.findById(articleId).map(fourmArticle -> {
+            Util.setArticlePhotos(fourmArticle);
+            return fourmArticle;
+        }).orElseThrow(()-> new NotFoundException(ResultEnum.ID_NOT_EXIST));
+    }
+
+    @Override
     public Page<FourmArticle> findByArticleContentLike(Long userId, String articleContent, Pageable pageable) {
         Page<FourmArticle> articles = fourmRepository.findByArticleContentLike("%" + articleContent + "%", pageable);
         return addLikeAndCollect(articles, userId);

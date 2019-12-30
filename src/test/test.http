@@ -121,7 +121,7 @@ GET http://web.springboot.cn/articleLike/findArticle/6?num=&size=
 ###
 根据帖子的内容模糊查询，传入用户id，如下面的1，判断该用户是否已经点赞或收藏了帖子，num默认为0，即第一页，size默认为15，表示页面的大小
 ###
-GET http://web.springboot.cn/articleFourm/findByContent?num=0&size=2
+GET http://web.springboot.cn/articleFourm/findByContent
 Content-Type: application/json
 
 {
@@ -133,6 +133,10 @@ Content-Type: application/json
 ###
 GET http://web.springboot.cn/articleFourm/findAll?num=0&size=2
 
+###
+根据帖子id查帖子
+###
+GET http://web.springboot.cn/articleFourm/findByArticleId/23
 ###
 根据用户id查询用户发的帖子，num默认为0，即第一页，size默认为15，表示页面的大小
 ###
@@ -164,6 +168,11 @@ PUT http://web.springboot.cn/articleComment/intercept/updateLike/3/1
 ###
 PUT http://web.springboot.cn/articleComment/intercept/updateTop/1/1
 
+###
+根据帖子id查询评论
+http://web.springboot.cn/articleComment/findByArticleId/{articleId}
+###
+GET http://web.springboot.cn/articleComment/findByArticleId/2
 ###
 增加评论的评论，传入评论的id，如下面的5
 ###

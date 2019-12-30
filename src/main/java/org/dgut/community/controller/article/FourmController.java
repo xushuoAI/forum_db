@@ -3,7 +3,9 @@ package org.dgut.community.controller.article;
 import org.dgut.community.entity.FourmArticle;
 import org.dgut.community.entity.User;
 import org.dgut.community.resultenum.Result;
+import org.dgut.community.resultenum.ResultEnum;
 import org.dgut.community.service.article.impl.FourmServiceImpl;
+import org.dgut.community.util.ResultUtil;
 import org.dgut.community.util.Util;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -61,6 +63,11 @@ public class FourmController {
             Long userId = Long.parseLong("0");
             return service.findByArticleContentLike(userId, fourmArticle.getArticleContent(), pageable);
         }
+    }
+
+    @GetMapping("/findByArticleId/{articleId}")
+    public ResponseEntity<Result> findByArticleId(@PathVariable Long articleId){
+        return ResponseEntity.ok(ResultUtil.success(service.findByArticleId(articleId)));
     }
 
     @GetMapping("/findByUserId/{userId}")
