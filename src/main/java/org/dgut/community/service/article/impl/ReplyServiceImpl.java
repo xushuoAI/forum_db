@@ -72,7 +72,7 @@ public class ReplyServiceImpl implements IReply {
                 articleComment.setCommentReply(articleComment.getCommentReply() + 1);
                 fourmRepository.save(fourmArticle);
                 commentRepository.save(articleComment);
-                replyRepository.save(articleReply);
+//                replyRepository.save(articleReply);
                 articleReply.setComment(articleComment);
                 ArticleReply reply = replyRepository.save(articleReply);
                 reply.setUserHeadImg(user.getUserHeadImg());

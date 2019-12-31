@@ -69,9 +69,12 @@ public class ArticleLikeServiceImpl implements IArticleLike {
     @Override
     public ResponseEntity<?> deleteByArticleId(Long articleId, ArticleLike like) {
         return fourmRepository.findById(articleId).map(fourmArticle -> {
+            ArticleLike articleLike = likeRepository.findByArticle_ArticleIdAndUserId(articleId, like.getUserId());
+            if (articleLike == null){
+                throw new NotFoundException(ResultEnum.NOT_REPEAT);
+            }
             fourmArticle.setArticleLike(fourmArticle.getArticleLike() - 1);
             fourmRepository.save(fourmArticle);
-            ArticleLike articleLike = likeRepository.findByArticle_ArticleIdAndUserId(articleId, like.getUserId());
             articleLike.setArticle(null);
             likeRepository.delete(articleLike);
             return ResponseEntity.ok(ResultUtil.success());

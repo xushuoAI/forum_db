@@ -40,7 +40,7 @@ public class ReplyController {
 
     @GetMapping("/findByCommentId/{commentId}")
     public Page<ArticleReply> findByCommentId(@PathVariable Long commentId, @RequestParam(defaultValue = "0") int num, @RequestParam(defaultValue = "15") int size){
-        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        Sort sort = Sort.by(Sort.Direction.ASC, "id");
         Pageable pageable = PageRequest.of(num, size, sort);
         return service.findByCommentId(commentId, pageable);
     }

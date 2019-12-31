@@ -49,7 +49,7 @@ public class CommentController {
 
     @GetMapping("/findByArticleId/{articleId}")
     public Page<ArticleComment> findByArticleId(@PathVariable Long articleId, @RequestParam(defaultValue = "0") int num, @RequestParam(defaultValue = "15") int size){
-        Sort sort = Sort.by(Sort.Direction.DESC, "commentId");
+        Sort sort = Sort.by(Sort.Direction.ASC, "commentId");
         Pageable pageable = PageRequest.of(num, size, sort);
         return service.findByArticleId(articleId, pageable);
     }

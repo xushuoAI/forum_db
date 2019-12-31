@@ -21,7 +21,7 @@ public class CorsFilter implements Filter {
         HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
 
         //指定允许其他域名访问
-        httpServletResponse.setHeader("Access-Control-Allow-Origin", "http://localhost:8080");
+        httpServletResponse.setHeader("Access-Control-Allow-Origin", "http://localhost");
 
         //响应头设置
         httpServletResponse.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");

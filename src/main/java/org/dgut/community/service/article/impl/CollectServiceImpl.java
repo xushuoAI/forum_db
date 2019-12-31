@@ -76,9 +76,12 @@ public class CollectServiceImpl implements ICollect {
     @Override
     public ResponseEntity<?> deleteById(Long articleId, Long userId) {
         return fourmRepository.findById(articleId).map(article -> {
+            ArticleCollect collect = collectRepository.findByArticleIdAndUserId(articleId, userId);
+            if (collect == null){
+                throw new NotFoundException(ResultEnum.NOT_REPEAT);
+            }
             article.setArticleCollect(article.getArticleCollect() - 1);
             fourmRepository.save(article);
-            ArticleCollect collect = collectRepository.findByArticleIdAndUserId(articleId, userId);
             collectRepository.delete(collect);
             return ResponseEntity.ok(ResultUtil.success());
         }).orElseThrow(()-> new NotFoundException(ResultEnum.ID_NOT_EXIST));

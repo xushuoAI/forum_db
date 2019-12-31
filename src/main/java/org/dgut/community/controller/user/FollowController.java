@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,12 +27,16 @@ public class FollowController {
     }
 
     @PostMapping("/intercept/save")
-    public ResponseEntity<Result> save(@RequestBody UserFollow entity){
+    public ResponseEntity<Result> save(@RequestBody UserFollow entity, HttpSession session){
+        User user = (User) session.getAttribute("user");
+        entity.setFansId(user.getUserId());
         return service.save(entity);
     }
 
     @DeleteMapping("/intercept/deleteById")
-    public ResponseEntity<?> deleteById(@RequestBody UserFollow follow){
+    public ResponseEntity<?> deleteById(@RequestBody UserFollow follow, HttpSession session){
+        User user = (User) session.getAttribute("user");
+        follow.setFansId(user.getUserId());
         return service.deleteById(follow);
     }
 
