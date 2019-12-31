@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 
 public interface IComment {
 
+    Page<ArticleComment> findByArticle_User_UserId(Long userId, Pageable pageable);
+
     Page<ArticleComment> findByArticleId(Long articleId, Pageable pageable);
 
     ResponseEntity<Result> updateLike(Long id, int num);

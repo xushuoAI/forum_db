@@ -31,6 +31,26 @@ public class ReplyServiceImpl implements IReply {
     }
 
     @Override
+    public Page<ArticleReply> findByComment_Article_User_UserId(Long userId, Pageable pageable) {
+        Page<ArticleReply> replies = replyRepository.findByComment_Article_User_UserId(userId, pageable);
+        for (ArticleReply reply : replies){
+            User user = findByUserName(reply.getFromUserName());
+            reply.setUserHeadImg(user.getUserHeadImg());
+        }
+        return replies;
+    }
+
+    @Override
+    public Page<ArticleReply> findByToUserName(String userName, Pageable pageable) {
+        Page<ArticleReply> replies = replyRepository.findByToUserName(userName, pageable);
+        for (ArticleReply reply : replies){
+            User user = findByUserName(reply.getFromUserName());
+            reply.setUserHeadImg(user.getUserHeadImg());
+        }
+        return replies;
+    }
+
+    @Override
     public Page<ArticleReply> findByCommentId(Long commentId, Pageable pageable) {
         Page<ArticleReply> replies = replyRepository.findByComment_commentId(commentId, pageable);
         for (ArticleReply reply : replies){

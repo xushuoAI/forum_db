@@ -4,6 +4,7 @@ import org.dgut.community.entity.ArticleComment;
 import org.dgut.community.entity.User;
 import org.dgut.community.resultenum.Result;
 import org.dgut.community.service.article.impl.CommentServiceImpl;
+import org.dgut.community.util.ResultUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -52,5 +53,14 @@ public class CommentController {
         Sort sort = Sort.by(Sort.Direction.ASC, "commentId");
         Pageable pageable = PageRequest.of(num, size, sort);
         return service.findByArticleId(articleId, pageable);
+    }
+
+    @GetMapping("/intercept/findCommentToUser")
+    public ResponseEntity<Result> findCommentToUser(HttpSession session, @RequestParam(defaultValue = "0") int num, @RequestParam(defaultValue = "15") int size){
+        Sort sort = Sort.by(Sort.Direction.DESC, "commentId");
+        Pageable pageable = PageRequest.of(num, size, sort);
+        User user = (User) session.getAttribute("user");
+        Page<ArticleComment> comments = service.findByArticle_User_UserId(user.getUserId(), pageable);
+        return ResponseEntity.ok(ResultUtil.success(comments));
     }
 }

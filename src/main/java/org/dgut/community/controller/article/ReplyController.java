@@ -5,6 +5,7 @@ import org.dgut.community.entity.ArticleReply;
 import org.dgut.community.entity.User;
 import org.dgut.community.resultenum.Result;
 import org.dgut.community.service.article.impl.ReplyServiceImpl;
+import org.dgut.community.util.ResultUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -43,5 +44,23 @@ public class ReplyController {
         Sort sort = Sort.by(Sort.Direction.ASC, "id");
         Pageable pageable = PageRequest.of(num, size, sort);
         return service.findByCommentId(commentId, pageable);
+    }
+
+    @GetMapping("/intercept/findReplyToUser")
+    public ResponseEntity<Result> findReplyToUser(HttpSession session, @RequestParam(defaultValue = "0") int num, @RequestParam(defaultValue = "15") int size){
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        Pageable pageable = PageRequest.of(num, size, sort);
+        User user = (User) session.getAttribute("user");
+        Page<ArticleReply> replies = service.findByToUserName(user.getUserName(), pageable);
+        return ResponseEntity.ok(ResultUtil.success(replies));
+    }
+
+    @GetMapping("/intercept/findReplyToArticle")
+    public ResponseEntity<Result> findReplyToArticle(HttpSession session, @RequestParam(defaultValue = "0") int num, @RequestParam(defaultValue = "15") int size){
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        Pageable pageable = PageRequest.of(num, size, sort);
+        User user = (User) session.getAttribute("user");
+        Page<ArticleReply> replies = service.findByComment_Article_User_UserId(user.getUserId(), pageable);
+        return ResponseEntity.ok(ResultUtil.success(replies));
     }
 }

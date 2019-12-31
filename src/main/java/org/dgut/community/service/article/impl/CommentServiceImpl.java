@@ -28,6 +28,17 @@ public class CommentServiceImpl implements IComment {
     }
 
     @Override
+    public Page<ArticleComment> findByArticle_User_UserId(Long userId, Pageable pageable) {
+        Page<ArticleComment> comments = commentRepository.findByArticle_User_UserId(userId, pageable);
+        for (ArticleComment comment : comments){
+            User user = findByUserId(comment.getUserId());
+            comment.setUserName(user.getUserName());
+            comment.setUserHeadImg(user.getUserHeadImg());
+        }
+        return comments;
+    }
+
+    @Override
     public Page<ArticleComment> findByArticleId(Long articleId, Pageable pageable) {
         Page<ArticleComment> comments = commentRepository.findByArticle_articleId(articleId, pageable);
         for (ArticleComment comment : comments){

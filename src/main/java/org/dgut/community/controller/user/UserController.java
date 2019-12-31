@@ -56,6 +56,11 @@ public class UserController {
         return service.findByUserName(user.getUserName());
     }
 
+    @GetMapping("/findByUserName2")
+    public User findByUserName2(User user){
+        return service.findByUserName(user.getUserName());
+    }
+
     @PostMapping("/save")
     public ResponseEntity<Result> save(@RequestBody User entity){
         return service.save(entity);

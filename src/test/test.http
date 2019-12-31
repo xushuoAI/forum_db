@@ -8,7 +8,7 @@ POST  http://web.springboot.cn/user/save
 Content-Type: application/json
 
 {
-  "userName": "adc",
+  "userName": "bcs",
   "userPassword": "123456"
 }
 
@@ -180,16 +180,16 @@ PUT http://web.springboot.cn/articleComment/intercept/updateTop/1/1
 根据帖子id查询评论
 http://web.springboot.cn/articleComment/findByArticleId/{articleId}
 ###
-GET http://web.springboot.cn/articleComment/findByArticleId/2
+GET http://web.springboot.cn/articleComment/findByArticleId/1
 ###
 增加评论的评论，传入评论的id，如下面的5
 ###
-POST http://web.springboot.cn/articleReply/intercept/save/9
+POST http://web.springboot.cn/articleReply/intercept/save/2
 Content-Type: application/json
 
 {
   "replyType":"1",
-  "toUserName":"zszs",
+  "toUserName":"adc",
   "replyContent":"测试"
 }
 
@@ -295,5 +295,19 @@ PUT http://web.springboot.cn/userReport/intercept/updateById/2
 num默认为0，即第一页，size默认为15，表示页面的大小
 ###
 GET http://web.springboot.cn/userReport/intercept/findAll?num=&size=
+
+###
+
+GET http://web.springboot.cn/articleReply/intercept/findReplyToUser
+
+###
+
+GET http://web.springboot.cn/articleComment/intercept/findCommentToUser
+
+###
+
+###
+
+GET http://web.springboot.cn/articleReply/intercept/findReplyToArticle?num=&size=
 
 ###
