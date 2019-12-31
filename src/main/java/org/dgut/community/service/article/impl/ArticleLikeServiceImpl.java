@@ -47,7 +47,7 @@ public class ArticleLikeServiceImpl implements IArticleLike {
         List<FourmArticle> fourmArticles = fourmRepository.findAllById(longs);
         for (FourmArticle fourmArticle : fourmArticles){
             Util.setArticlePhotos(fourmArticle);
-            fourmArticle.getUser().setUserPassword(null);
+//            fourmArticle.getUser().setUserPassword(null);
         }
         return fourmArticles;
     }

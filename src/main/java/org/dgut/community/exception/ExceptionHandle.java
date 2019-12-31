@@ -18,7 +18,8 @@ public class ExceptionHandle {
             return ResultUtil.error(notFoundException.getCode(), notFoundException.getMessage());
         }else {
             e.printStackTrace();
-            return ResultUtil.error(-1,"请求错误");
+//            return ResultUtil.error(-1,"请求错误");
+            return ResultUtil.error(-1,e.getMessage());
         }
     }
 

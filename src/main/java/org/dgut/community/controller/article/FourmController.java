@@ -30,8 +30,9 @@ public class FourmController {
     }
 
     @PostMapping("/intercept/save/{id}")
-    public ResponseEntity<Result> save(@RequestBody FourmArticle entity, @PathVariable Long id){
-        return service.save(entity, id);
+    public ResponseEntity<Result> save(@RequestBody FourmArticle entity, @PathVariable Long id, HttpSession session){
+        User user = (User)session.getAttribute("user");
+        return service.save(entity, user.getUserId());
     }
 
     @GetMapping("/findAll")
