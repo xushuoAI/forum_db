@@ -4,9 +4,13 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
- * 允许跨域访问过滤器
+
+ 允许跨域访问过滤器
  */
 public class CorsFilter implements Filter {
     @Override
@@ -20,15 +24,17 @@ public class CorsFilter implements Filter {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
 
-        //指定允许其他域名访问
-        httpServletResponse.setHeader("Access-Control-Allow-Origin", "http://localhost");
 
-        //响应头设置
-        httpServletResponse.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-
-        //响应类型
-        httpServletResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE");
-        httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
+        String []  allowDomain= {"http://127.0.0.1","http://localhost","http://meilejushi.club"};
+        Set<String> allowedOrigins= new HashSet<String>(Arrays.asList(allowDomain));
+        String originHeader=((HttpServletRequest) httpServletRequest).getHeader("Origin");
+        if (allowedOrigins.contains(originHeader)) {
+            httpServletResponse.setHeader("Access-Control-Allow-Origin", originHeader);
+            httpServletResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE,PUT");
+            httpServletResponse.setHeader("Access-Control-Max-Age", "3600");
+            httpServletResponse.setHeader("Access-Control-Allow-Headers", "content-type, x-requested-with");
+            httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
+        }
 
         if (((HttpServletRequest) httpServletRequest).getMethod().equals("OPTIONS")) {
             httpServletResponse.getWriter().println("ok");
@@ -43,4 +49,3 @@ public class CorsFilter implements Filter {
 
     }
 }
-

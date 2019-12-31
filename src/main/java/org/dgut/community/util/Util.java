@@ -25,12 +25,11 @@ import java.util.*;
 public class Util implements ApplicationListener<WebServerInitializedEvent> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Util.class);
-
-//    public static final String getTime() {
-//        Date d = new Date();
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-//        return sdf.format(d);
-//    }
+    // public static final String getTime() {
+    // Date d = new Date();
+    // SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    // return sdf.format(d);
+    // }
 
     public static String upload(MultipartFile file, String userName, String name) {
         if (file.isEmpty()) {
@@ -38,9 +37,10 @@ public class Util implements ApplicationListener<WebServerInitializedEvent> {
         }
 
         String fileName = file.getOriginalFilename();
-        String filePath = "D:/Workspace-STS4/springboot-community/src/main/resources/templates/" + userName + "/" + name;
+        String filePath = "/home/forum/" + userName + "/" + name;
+        //String filePath = "D:/Workspace-STS4/springboot-community/src/main/resources/templates/" + userName + "/" + name;
         File dest = new File(filePath + fileName);
-        if (!dest.exists()){
+        if (!dest.exists()) {
             dest.mkdirs();
         }
         try {
@@ -54,58 +54,59 @@ public class Util implements ApplicationListener<WebServerInitializedEvent> {
     }
 
 
-    public static final String uploadBase64Image(String name, String base64Data){
+    public static final String uploadBase64Image(String name, String base64Data) {
         //System.out.println(base64Data);
         /*base64格式
          * data:image/png;base64,xxx*/
         String dataPrix = "";
         String data = "";
-        if(base64Data == null || "".equals(base64Data)){
+        if (base64Data == null || "".equals(base64Data)) {
             return null;
-        }else {
+        } else {
             String[] d = base64Data.split("base64,");
             if (d != null && d.length == 2) {
                 dataPrix = d[0];
                 data = d[1];
-//                System.out.println("坎坎坷坷"+data);
+                // System.out.println("坎坎坷坷"+data);
             } else {
                 return null;
 
             }
         }
         String suffix = "";
-        if("data:image/jpeg;".equalsIgnoreCase(dataPrix)){//data:image/jpeg;base64,base64编码的jpeg图片数据
+        if ("data:image/jpeg;".equalsIgnoreCase(dataPrix)) {//data:image/jpeg;base64,base64编码的jpeg图片数据
             suffix = ".jpg";
-        } else if("data:image/x-icon;".equalsIgnoreCase(dataPrix)){//data:image/x-icon;base64,base64编码的icon图片数据
+        } else if ("data:image/x-icon;".equalsIgnoreCase(dataPrix)) {//data:image/x-icon;base64,base64编码的icon图片数据
             suffix = ".ico";
-        } else if("data:image/gif;".equalsIgnoreCase(dataPrix)){//data:image/gif;base64,base64编码的gif图片数据
+        } else if ("data:image/gif;".equalsIgnoreCase(dataPrix)) {//data:image/gif;base64,base64编码的gif图片数据
             suffix = ".gif";
-        } else if("data:image/png;".equalsIgnoreCase(dataPrix)){//data:image/png;base64,base64编码的png图片数据
+        } else if ("data:image/png;".equalsIgnoreCase(dataPrix)) {//data:image/png;base64,base64编码的png图片数据
             suffix = ".png";
-        }else{
+        } else {
             return null;
         }
         String tempFileName = UUID.randomUUID().toString() + suffix;
-//        File dest = new File("D:/Workspace-STS4/springboot-community/src/main/resources/templates/" + name);
-//        if (!dest.exists()){
-//            dest.mkdirs();
-//        }
-        String imgFilePath = "D:/Workspace-STS4/springboot-community/src/main/resources/templates/" + name + tempFileName;//新生成的图片
+        // File dest = new File("D:/Workspace-STS4/springboot-community/src/main/resources/templates/" + name);
+        // if (!dest.exists()){
+        // dest.mkdirs();
+        // }
+        String imgFilePath = "/home/forum/" + name + tempFileName;//新生成的图片
+        //String imgFilePath = "D:/Workspace-STS4/springboot-community/src/main/resources/templates/" + name + tempFileName;//新生成的图片
         //Base64 decoder = new Base64();
         try {
             //Base64解码
             byte[] b = Base64.decodeBase64(data);
-            for(int i=0;i<b.length;++i) {
-                if(b[i]<0) {
+            for (int i = 0; i < b.length; ++i) {
+                if (b[i] < 0) {
                     //调整异常数据
-                    b[i]+=256;
+                    b[i] += 256;
                 }
             }
             OutputStream out = new FileOutputStream(imgFilePath);
             out.write(b);
             out.flush();
             out.close();
-            String imgUrl= getUrl() + name + tempFileName;
+            String imgUrl = getUrl() + name + tempFileName;
             return imgUrl;
         } catch (IOException e) {
             e.printStackTrace();
@@ -113,12 +114,12 @@ public class Util implements ApplicationListener<WebServerInitializedEvent> {
         }
     }
 
-    public static final void setArticlePhotos(FourmArticle article){
+    public static final void setArticlePhotos(FourmArticle article) {
         article.getUser().setUserPassword(null);
-        if (article.getArticlePhoto() != null){
+        if (article.getArticlePhoto() != null) {
             String[] strings = article.getArticlePhoto().split(",");
             List<Image> photo = new ArrayList<>();
-            for (String string : strings){
+            for (String string : strings) {
                 Image image = new Image();
                 image.setImageUrl(string);
                 photo.add(image);
@@ -127,14 +128,15 @@ public class Util implements ApplicationListener<WebServerInitializedEvent> {
         }
     }
 
-    public static final void deleteFile(String path){
+    public static final void deleteFile(String path) {
         String[] splits = path.split(",");
-        String filePath = "D:/Workspace-STS4/springboot-community/src/main/resources/templates/";
-        for (String split : splits){
+        String filePath = "/home/forum/";
+        //String filePath = "D:/Workspace-STS4/springboot-community/src/main/resources/templates/";
+        for (String split : splits) {
             String sub = split.substring(split.lastIndexOf("/") + 1);
             File file = new File(filePath + sub);
-            if (!"abc.jpg".equals(sub)){
-                if (file.exists()){
+            if (!"abc.jpg".equals(sub)) {
+                if (file.exists()) {
                     file.delete();
                 }
             }
@@ -150,8 +152,9 @@ public class Util implements ApplicationListener<WebServerInitializedEvent> {
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
-//        return "http://"+address.getHostAddress() + ":" + serverPort + "/";
-        return "http://192.168.23.1/";
+        return "http://192.168.23.1";
+        // return "http://"+address.getHostAddress() + ":" + serverPort + "/";
+//        return "http://111.229.39.131/";
     }
 
     @Override

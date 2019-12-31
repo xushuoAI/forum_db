@@ -42,7 +42,7 @@ public class UserController {
         if (user == null){
             throw new NotFoundException(ResultEnum.NOT_LOGIN);
         }
-        return ResponseEntity.ok(ResultUtil.success(user));
+        return ResponseEntity.ok(ResultUtil.success(service.findById(user.getUserId())));
     }
 
     @GetMapping("/findByUserId/{userId}")
