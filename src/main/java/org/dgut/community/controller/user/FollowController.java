@@ -40,13 +40,13 @@ public class FollowController {
         return service.deleteById(follow);
     }
 
-    @GetMapping("/intercept/findFans/{starId}")
+    @GetMapping("/findFans/{starId}")
     public List<User> findFans(@PathVariable Long starId, @RequestParam(defaultValue = "0") int num, @RequestParam(defaultValue = "15") int size){
         Pageable pageable = PageRequest.of(num, size);
         return service.findByFansId(starId, pageable);
     }
 
-    @GetMapping("/intercept/findUser/{fansId}")
+    @GetMapping("/findUser/{fansId}")
     public List<User> findUser(@PathVariable Long fansId, @RequestParam(defaultValue = "0") int num, @RequestParam(defaultValue = "15") int size){
         Pageable pageable = PageRequest.of(num, size);
         return service.findByStarId(fansId, pageable);
