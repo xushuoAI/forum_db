@@ -55,7 +55,7 @@ public class UserController {
     }
 
     @GetMapping("/findByUserName")
-    public User findByUserName(@RequestBody User user){
+    public User findByUserName(User user){
         return service.findByUserName(user.getUserName());
     }
 
