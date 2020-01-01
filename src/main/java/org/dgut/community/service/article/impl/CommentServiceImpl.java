@@ -34,6 +34,7 @@ public class CommentServiceImpl implements IComment {
             User user = findByUserId(comment.getUserId());
             comment.setUserName(user.getUserName());
             comment.setUserHeadImg(user.getUserHeadImg());
+            comment.getArticle().getUser().setUserPassword(null);
         }
         return comments;
     }

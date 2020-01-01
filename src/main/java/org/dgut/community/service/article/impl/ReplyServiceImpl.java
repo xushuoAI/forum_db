@@ -36,6 +36,7 @@ public class ReplyServiceImpl implements IReply {
         for (ArticleReply reply : replies){
             User user = findByUserName(reply.getFromUserName());
             reply.setUserHeadImg(user.getUserHeadImg());
+            reply.getComment().getArticle().getUser().setUserPassword(null);
         }
         return replies;
     }
@@ -46,6 +47,7 @@ public class ReplyServiceImpl implements IReply {
         for (ArticleReply reply : replies){
             User user = findByUserName(reply.getFromUserName());
             reply.setUserHeadImg(user.getUserHeadImg());
+            reply.getComment().getArticle().getUser().setUserPassword(null);
         }
         return replies;
     }

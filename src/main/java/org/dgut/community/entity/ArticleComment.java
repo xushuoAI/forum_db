@@ -25,7 +25,7 @@ public class ArticleComment implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long commentId;
 
-    @JsonIgnore
+//    @JsonIgnore
     @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "articleId")
     private FourmArticle article;

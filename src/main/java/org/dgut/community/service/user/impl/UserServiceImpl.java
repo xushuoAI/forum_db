@@ -56,12 +56,12 @@ public class UserServiceImpl implements IUser {
 //            user.setUserFocus(newUser.getUserFocus());
 //            user.setUserFollow(newUser.getUserFollow());
 //            user.setUserHeadImg(newUser.getUserHeadImg());
-            if (newUser.getUserName() != ""){
-                if (userRepository.findByUserName(newUser.getUserName()) != null){
-                    throw new NotFoundException(ResultEnum.USER_IS_EXIST);
-                }
-                user.setUserName(newUser.getUserName());
-            }
+//            if (newUser.getUserName() != ""){
+//                if (userRepository.findByUserName(newUser.getUserName()) != null){
+//                    throw new NotFoundException(ResultEnum.USER_IS_EXIST);
+//                }
+//                user.setUserName(newUser.getUserName());
+//            }
             if (newUser.getUserHeadImg() != ""){
                 Util.deleteFile(user.getUserHeadImg());
                 user.setUserHeadImg(Util.uploadBase64Image(user.getUserName(), newUser.getUserHeadImg()));
