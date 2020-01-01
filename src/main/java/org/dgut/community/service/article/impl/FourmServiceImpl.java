@@ -71,6 +71,7 @@ public class FourmServiceImpl implements IFourm {
     public ResponseEntity<?> deleteById(Long id) {
         return fourmRepository.findById(id).map(fourmArticle -> {
             return userRepository.findById(fourmArticle.getUser().getUserId()).map(user -> {
+                collectRepository.deleteByArticleId(id);
                 user.setUserArticles(user.getUserArticles() - 1);
                 userRepository.save(user);
                 fourmArticle.setUser(null);

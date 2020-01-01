@@ -1,11 +1,13 @@
 package org.dgut.community.controller.user;
 
+import com.alibaba.fastjson.JSONObject;
 import org.dgut.community.NotFoundException;
 import org.dgut.community.entity.User;
 import org.dgut.community.resultenum.Result;
 import org.dgut.community.resultenum.ResultEnum;
 import org.dgut.community.service.user.impl.UserServiceImpl;
 import org.dgut.community.session.MySessionContext;
+import org.dgut.community.util.HttpClient;
 import org.dgut.community.util.ResultUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -64,7 +66,17 @@ public class UserController {
 
     @PostMapping("/save")
     public ResponseEntity<Result> save(@RequestBody User entity){
-        return service.save(entity);
+
+        //System.out.println(HttpClient.doPost(news.getNewsTitle()));
+        JSONObject BaiDuC=JSONObject.parseObject(HttpClient.doPost(entity.getUserName()));
+
+        String baiduC= (String) BaiDuC.get("conclusion");
+
+        if (baiduC.equals("合规")){
+            return  service.save(entity);
+        }else{
+            return ResponseEntity.ok(ResultUtil.error(9011,"昵称存在违规，包含低俗色情"));
+        }
     }
 
     @PutMapping("/intercept/updateById/{id}")

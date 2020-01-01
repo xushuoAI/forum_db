@@ -84,7 +84,7 @@ Content-Type: application/json
 ###
 根据帖子的Id ，删除帖子
 ###
-DELETE http://web.springboot.cn/articleFourm/intercept/deleteById/21
+DELETE http://web.springboot.cn/articleFourm/intercept/deleteById/5
 
 ###
 根据帖子id，如下面的2，修改帖子内容
@@ -233,7 +233,7 @@ GET http://web.springboot.cn/articleCollect/intercept/findArticle/2?num=&size=
 ###
 根据用户id查询用户收藏的帖子，传入用户id，如下面的1，num默认为0，即第一页，size默认为15，表示页面的大小
 ###
-GET http://web.springboot.cn/articleCollect/intercept/findUser/6?num=&size=
+GET http://web.springboot.cn/articleCollect/intercept/findUser/1?num=&size=2
 
 ###
 
@@ -258,12 +258,12 @@ Content-Type: application/json
 ###
 根据用户id查询已关注的人，num默认为0，即第一页，size默认为15，表示页面的大小
 ###
-GET http://web.springboot.cn/userFollow/intercept/findFans/1?num=0&size=1
+GET http://web.springboot.cn/userFollow/findFans/1?num=0&size=1
 ###
 
 根据用户id查询粉丝，num默认为0，即第一页，size默认为15，表示页面的大小
 ###
-GET http://web.springboot.cn/userFollow/intercept/findUser/3?num=0&size=
+GET http://web.springboot.cn/userFollow/findUser/3?num=0&size=
 
 ###
 举报帖子或评论，传入帖子id，或评论id，被举报用户id，举报原因

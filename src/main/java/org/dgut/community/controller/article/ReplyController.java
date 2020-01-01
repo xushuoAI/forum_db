@@ -1,10 +1,12 @@
 package org.dgut.community.controller.article;
 
+import com.alibaba.fastjson.JSONObject;
 import org.dgut.community.entity.ArticleComment;
 import org.dgut.community.entity.ArticleReply;
 import org.dgut.community.entity.User;
 import org.dgut.community.resultenum.Result;
 import org.dgut.community.service.article.impl.ReplyServiceImpl;
+import org.dgut.community.util.HttpClient;
 import org.dgut.community.util.ResultUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,10 +30,22 @@ public class ReplyController {
     }
 
     @PostMapping("/intercept/save/{commentId}")
-    public ResponseEntity<Result> save(@PathVariable Long commentId, @RequestBody ArticleReply entity, HttpSession session){
+    public ResponseEntity save(@PathVariable Long commentId, @RequestBody ArticleReply entity, HttpSession session){
         User user = (User) session.getAttribute("user");
         entity.setFromUserName(user.getUserName());
-        return service.save(commentId, entity);
+
+        JSONObject BaiDuC=JSONObject.parseObject(HttpClient.doPost(entity.getReplyContent()));
+
+        String baiduC= (String) BaiDuC.get("conclusion");
+
+        if (baiduC.equals("合规")){
+            return service.save(commentId, entity);
+        }else{
+            return ResponseEntity.ok(ResultUtil.error(9011,"评论内容存在违规，包含低俗色情"));
+        }
+
+
+
     }
 
     @DeleteMapping("/intercept/deleteById/{id}")

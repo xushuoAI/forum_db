@@ -1,10 +1,12 @@
 package org.dgut.community.controller.article;
 
+import com.alibaba.fastjson.JSONObject;
 import org.dgut.community.entity.FourmArticle;
 import org.dgut.community.entity.User;
 import org.dgut.community.resultenum.Result;
 import org.dgut.community.resultenum.ResultEnum;
 import org.dgut.community.service.article.impl.FourmServiceImpl;
+import org.dgut.community.util.HttpClient;
 import org.dgut.community.util.ResultUtil;
 import org.dgut.community.util.Util;
 import org.springframework.data.domain.Page;
@@ -30,9 +32,18 @@ public class FourmController {
     }
 
     @PostMapping("/intercept/save/{id}")
-    public ResponseEntity<Result> save(@RequestBody FourmArticle entity, @PathVariable Long id, HttpSession session){
+    public ResponseEntity save(@RequestBody FourmArticle entity, @PathVariable Long id, HttpSession session){
         User user = (User)session.getAttribute("user");
-        return service.save(entity, user.getUserId());
+        JSONObject BaiDuC=JSONObject.parseObject(HttpClient.doPost(entity.getArticleContent()));
+
+        String baiduC= (String) BaiDuC.get("conclusion");
+
+        if (baiduC.equals("合规")){
+            return service.save(entity, user.getUserId());
+        }else{
+            return ResponseEntity.ok(ResultUtil.error(9011,"帖子内容存在违规，包含低俗色情"));
+        }
+
     }
 
     @GetMapping("/findAll")

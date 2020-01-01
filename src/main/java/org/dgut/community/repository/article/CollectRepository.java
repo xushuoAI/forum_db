@@ -12,6 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 public interface CollectRepository extends JpaRepository<ArticleCollect, Long> {
+    @Transactional
+    @Modifying
+    @Query(value = "delete from ArticleCollect where articleId=?1")
+    void deleteByArticleId(Long articleId);
     ArticleCollect findByArticleIdAndUserId(Long articleId, Long userId);
     Page<ArticleCollect> findByUserId(Long id, Pageable pageable);
     Page<ArticleCollect> findByArticleId(Long id, Pageable pageable);
