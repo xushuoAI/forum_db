@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements IUser {
@@ -20,6 +21,15 @@ public class UserServiceImpl implements IUser {
 
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    @Override
+    public List<User> findByUserNameLike(String userName) {
+        List<User> users = userRepository.findByUserNameLike("%" + userName + "%");
+        for (User user : users){
+            user.setUserPassword(null);
+        }
+        return users;
     }
 
     @Override

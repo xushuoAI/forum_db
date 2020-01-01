@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -57,8 +58,8 @@ public class UserController {
     }
 
     @GetMapping("/findByUserName2")
-    public User findByUserName2(User user){
-        return service.findByUserName(user.getUserName());
+    public List<User> findByUserName2(User user){
+        return service.findByUserNameLike(user.getUserName());
     }
 
     @PostMapping("/save")
