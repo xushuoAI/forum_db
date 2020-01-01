@@ -78,8 +78,8 @@ public class UserController {
         return service.updatePassword(user.getUserId(), newUser);
     }
 
-    @DeleteMapping("/intercept/deleteById/{id}")
-    public ResponseEntity<?> deleteById(@PathVariable Long id){
-        return service.deleteById(id);
-    }
+//    @DeleteMapping("/intercept/deleteById/{id}")
+//    public ResponseEntity<?> deleteById(@PathVariable Long id){
+//        return service.deleteById(id);
+//    }
 }
