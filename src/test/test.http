@@ -63,11 +63,11 @@ Content-Type: application/json
 ###
 根据用户名查找用户
 ###
-GET http://web.springboot.cn/user/findByUserName?userName=
+GET http://web.springboot.cn/user/findByUserName?userName=bcs
 Content-Type: application/json
 
 {
-  "userName": "a"
+  "userName": "bcs"
 }
 
 ###
