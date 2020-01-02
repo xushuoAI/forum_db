@@ -31,7 +31,7 @@ public class ReportController {
         return ResponseEntity.ok(ResultUtil.success(report));
     }
 
-    @PutMapping("/intercept/updateById/{reportId}")
+    @PutMapping("/updateById/{reportId}")
     public ResponseEntity<Result> updateById(@PathVariable Long reportId){
         Report report = service.updateById(reportId);
         return ResponseEntity.ok(ResultUtil.success(report));
@@ -42,7 +42,7 @@ public class ReportController {
         return service.deleteById(reportId);
     }
 
-    @GetMapping("/intercept/findAll")
+    @GetMapping("/findAll")
     public Page<Report> findAll(@RequestParam(defaultValue = "0") int num, @RequestParam(defaultValue = "15") int size){
         Sort sort = Sort.by(Sort.Direction.DESC, "reportId");
         Pageable pageable = PageRequest.of(num, size, sort);
