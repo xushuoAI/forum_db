@@ -94,8 +94,8 @@ public class FourmController {
     }
 
     @GetMapping("/findByArticleId/{articleId}")
-    public ResponseEntity<Result> findByArticleId(@PathVariable Long articleId){
-        return ResponseEntity.ok(ResultUtil.success(service.findByArticleId(articleId)));
+    public ResponseEntity<Result> findByArticleId(@PathVariable Long articleId, @RequestParam(defaultValue = "0") Long myId){
+        return ResponseEntity.ok(ResultUtil.success(service.findByArticleId(articleId, myId)));
     }
 
     @GetMapping("/findByUserId/{userId}")

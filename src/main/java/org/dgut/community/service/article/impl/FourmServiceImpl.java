@@ -39,9 +39,12 @@ public class FourmServiceImpl implements IFourm {
     }
 
     @Override
-    public FourmArticle findByArticleId(Long articleId) {
+    public FourmArticle findByArticleId(Long articleId, Long myId) {
         return fourmRepository.findById(articleId).map(fourmArticle -> {
             Util.setArticlePhotos(fourmArticle);
+            if (followRepository.findByFansIdAndStarId(myId, fourmArticle.getUser().getUserId()) != null){
+                fourmArticle.getUser().setIsFocus(1);
+            }
             return fourmArticle;
         }).orElseThrow(()-> new NotFoundException(ResultEnum.ID_NOT_EXIST));
     }

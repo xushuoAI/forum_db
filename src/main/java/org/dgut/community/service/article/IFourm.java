@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface IFourm {
 
-    FourmArticle findByArticleId(Long articleId);
+    FourmArticle findByArticleId(Long articleId, Long myId);
 
     Page<FourmArticle> findByArticleContentLike(Long userId, String articleContent, Pageable pageable);
 
