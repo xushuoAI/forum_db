@@ -1,5 +1,6 @@
 package org.dgut.community.util;
 
+import com.alibaba.fastjson.JSONObject;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.dgut.community.entity.FourmArticle;
 import org.dgut.community.entity.Image;
@@ -67,6 +68,15 @@ public class Util implements ApplicationListener<WebServerInitializedEvent> {
             if (d != null && d.length == 2) {
                 dataPrix = d[0];
                 data = d[1];
+                System.out.println(data);
+                JSONObject BaiDuC=JSONObject.parseObject(HttpClient.doPostImg(data));
+                System.out.println(BaiDuC);
+                String baiduC= (String) BaiDuC.get("conclusion");
+
+                if (baiduC.equals("不合规")){
+                    String imgUrlc ="http://134.175.161.141/error.jpg";
+                    return imgUrlc;
+                }
                 // System.out.println("坎坎坷坷"+data);
             } else {
                 return null;
