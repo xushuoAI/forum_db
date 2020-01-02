@@ -73,7 +73,9 @@ public class UserServiceImpl implements IUser {
 //                user.setUserName(newUser.getUserName());
 //            }
             if (newUser.getUserHeadImg() != ""){
-                Util.deleteFile(user.getUserHeadImg());
+                if (user.getUserHeadImg() != null){
+                    Util.deleteFile(user.getUserHeadImg());
+                }
                 user.setUserHeadImg(Util.uploadBase64Image(user.getUserName(), newUser.getUserHeadImg()));
             }
 //            user.setUserName(newUser.getUserName());
