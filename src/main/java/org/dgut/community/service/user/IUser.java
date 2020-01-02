@@ -8,11 +8,11 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public interface IUser {
-    List<User> findByUserNameLike(String userName);
+    List<User> findByUserNameLike(String userName, Long myId);
 
-    User findById(Long userId);
+    User findById(Long userId, Long myId);
 
-    User findByUserName(String userName);
+    User findByUserName(String userName, Long myId);
 
     ResponseEntity<?> deleteById(Long id);
 

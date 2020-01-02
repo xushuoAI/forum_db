@@ -43,6 +43,7 @@ public class FollowServiceImpl implements IFollow {
         };
         List<User> users = userRepository.findAllById(longs);
         for (User user : users){
+//            user.setIsFocus(1);
             user.setUserPassword(null);
         }
         return users;
@@ -63,6 +64,7 @@ public class FollowServiceImpl implements IFollow {
         };
         List<User> users = userRepository.findAllById(longs);
         for (User user : users){
+//            user.setIsFocus(1);
             user.setUserPassword(null);
         }
         return users;

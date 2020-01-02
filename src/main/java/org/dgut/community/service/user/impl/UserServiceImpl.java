@@ -2,6 +2,8 @@ package org.dgut.community.service.user.impl;
 
 import org.dgut.community.NotFoundException;
 import org.dgut.community.entity.User;
+import org.dgut.community.entity.UserFollow;
+import org.dgut.community.repository.user.FollowRepository;
 import org.dgut.community.repository.user.UserRepository;
 import org.dgut.community.resultenum.Result;
 import org.dgut.community.resultenum.ResultEnum;
@@ -18,33 +20,53 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements IUser {
     private UserRepository userRepository;
+    private FollowRepository followRepository;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, FollowRepository followRepository) {
         this.userRepository = userRepository;
+        this.followRepository = followRepository;
     }
 
     @Override
-    public List<User> findByUserNameLike(String userName) {
+    public List<User> findByUserNameLike(String userName, Long myId) {
         List<User> users = userRepository.findByUserNameLike("%" + userName + "%");
         for (User user : users){
+            if (myId != 0){
+                UserFollow follow = followRepository.findByFansIdAndStarId(myId, user.getUserId());
+                if (follow != null){
+                    user.setIsFocus(1);
+                }
+            }
             user.setUserPassword(null);
         }
         return users;
     }
 
     @Override
-    public User findById(Long userId) {
+    public User findById(Long userId, Long myId) {
         return userRepository.findById(userId).map(user -> {
+            if (myId != 0){
+                UserFollow follow = followRepository.findByFansIdAndStarId(myId, userId);
+                if (follow != null){
+                    user.setIsFocus(1);
+                }
+            }
             user.setUserPassword(null);
             return user;
         }).orElseThrow(()-> new NotFoundException(ResultEnum.USER_NOT_EXIST));
     }
 
     @Override
-    public User findByUserName(String userName) {
+    public User findByUserName(String userName, Long myId) {
         User user = userRepository.findByUserName(userName);
         if (user == null){
             throw new NotFoundException(ResultEnum.USER_NOT_EXIST);
+        }
+        if (myId != 0){
+            UserFollow follow = followRepository.findByFansIdAndStarId(myId, user.getUserId());
+            if (follow != null){
+                user.setIsFocus(1);
+            }
         }
         user.setUserPassword(null);
         return user;

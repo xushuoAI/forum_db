@@ -45,23 +45,23 @@ public class UserController {
         if (user == null){
             throw new NotFoundException(ResultEnum.NOT_LOGIN);
         }
-        return ResponseEntity.ok(ResultUtil.success(service.findById(user.getUserId())));
+        return ResponseEntity.ok(ResultUtil.success(service.findById(user.getUserId(), user.getUserId())));
     }
 
     @GetMapping("/findByUserId/{userId}")
-    public ResponseEntity<Result> findByUserId(@PathVariable Long userId){
-        User user = service.findById(userId);
+    public ResponseEntity<Result> findByUserId(@PathVariable Long userId, @RequestParam(defaultValue = "0") Long myId){
+        User user = service.findById(userId, myId);
         return ResponseEntity.ok(ResultUtil.success(user));
     }
 
     @GetMapping("/findByUserName")
-    public User findByUserName(User user){
-        return service.findByUserName(user.getUserName());
+    public User findByUserName(User user, @RequestParam(defaultValue = "0") Long myId){
+        return service.findByUserName(user.getUserName(), myId);
     }
 
     @GetMapping("/findByUserName2")
-    public List<User> findByUserName2(User user){
-        return service.findByUserNameLike(user.getUserName());
+    public List<User> findByUserName2(User user, @RequestParam(defaultValue = "0") Long myId){
+        return service.findByUserNameLike(user.getUserName(), myId);
     }
 
     @PostMapping("/save")
