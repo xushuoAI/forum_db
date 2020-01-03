@@ -1,54 +1,61 @@
 package org.dgut.community.controller.user;
 
+
+
 import org.dgut.community.entity.Admin;
-import org.dgut.community.entity.User;
-import org.dgut.community.service.user.impl.AdminServiceImpl;
+import org.dgut.community.service.user.impl.AdminService;
+import org.dgut.community.util.ResultArticleJson;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
-@RequestMapping("/userAdmin")
+@RequestMapping("/Admin")
 public class AdminController {
+    @Autowired
+    private AdminService adminService;
 
-    private Map<String, Object> map = new HashMap<String, Object>();
-    private AdminServiceImpl service;
 
-    public AdminController(AdminServiceImpl service) {
-        this.service = service;
+    @GetMapping
+    public ResultArticleJson showAllAdmin(){
+        return ResultArticleJson.suc(adminService.AllList());
     }
+    @GetMapping("/{id}")
+    public ResultArticleJson showAdminById(@PathVariable("id") Integer id){
+        return ResultArticleJson.suc(adminService.adminItem(id));
+    }
+    @PostMapping("/register")
+    public ResultArticleJson registerAdmin(@RequestBody Admin admin){
+        if (adminService.existsAdmin(admin.getAdminName())){
+            return ResultArticleJson.fail(9001,"用户名已经存在");
+        }else{
+            return ResultArticleJson.suc(adminService.addAdmin(admin));
+        }
 
-    @PostMapping("/save")
-    public Admin save(@RequestBody Admin entity){
-        return service.save(entity);
     }
 
     @PostMapping("/login")
-    public Map login(String name, String password, HttpSession session){
-        Admin admin = service.login(name, password);
-        if (admin != null){
-            admin.setAdminPassword(null);
-            map.put("message", "登录成功");
-            map.put("admin", admin);
-            session.setAttribute("user", admin);
-        }else {
-            map.put("message", "用户名或密码有误");
+    public ResultArticleJson registerAdmin(@RequestBody Admin admin, HttpSession session){
+        //存在这个用户
+        if (adminService.existsAdmin(admin.getAdminName())){
+            //密码正确
+            if (adminService.existAccount(admin.getAdminName(),admin.getAdminPassword())){
+
+                session.setAttribute("user",adminService.findByName(admin.getAdminName()));
+                String sessId=session.getId();
+                return ResultArticleJson.suc(sessId);
+            }else{
+                return ResultArticleJson.fail(9406,"密码错误");
+            }
+        }else{
+            return ResultArticleJson.notFoundUser();
         }
-        return map;
+    }
+    @DeleteMapping("/{id}")
+    public ResultArticleJson showNewsList(@PathVariable("id") Integer id) {
+        return  ResultArticleJson.suc(adminService.deleteAdmin(id));
     }
 
-    @GetMapping("/logout")
-    public Map logout(HttpSession session) {
-        session.removeAttribute("admin");
-        map.clear();
-        map.put("message", "注销成功");
-        return map;
-    }
 
-    @PutMapping("/intercept/updateById/{id}")
-    public Admin updateById(@PathVariable Long id, @RequestBody Admin newAdmin){
-        return service.updateById(id, newAdmin);
-    }
 }

@@ -1,6 +1,8 @@
 package org.dgut.community.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -8,12 +10,16 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
-@Table
+@Table(name = "forum_admin")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Admin implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long adminId;
+    @Column(length = 11)
+    private Integer adminId;
 
     @Column(unique = true, nullable = false)
     private String adminName;
@@ -21,7 +27,7 @@ public class Admin implements Serializable {
     @Column(nullable = false)
     private String adminPassword;
 
-    private int adminPhone;
+    private String adminPhone;
 
     @Email
     private String adminEmail;
@@ -33,4 +39,9 @@ public class Admin implements Serializable {
     private int adminStatus;
 
     private LocalDate adminCreateTime;
+
+
+
+
+
 }

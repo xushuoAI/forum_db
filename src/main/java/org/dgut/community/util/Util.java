@@ -68,9 +68,9 @@ public class Util implements ApplicationListener<WebServerInitializedEvent> {
             if (d != null && d.length == 2) {
                 dataPrix = d[0];
                 data = d[1];
-                System.out.println(data);
+                //System.out.println(data);
                 JSONObject BaiDuC=JSONObject.parseObject(HttpClient.doPostImg(data));
-                System.out.println(BaiDuC);
+                //System.out.println(BaiDuC);
                 String baiduC= (String) BaiDuC.get("conclusion");
 
                 if (baiduC.equals("不合规")){
@@ -100,8 +100,8 @@ public class Util implements ApplicationListener<WebServerInitializedEvent> {
         // if (!dest.exists()){
         // dest.mkdirs();
         // }
-//        String imgFilePath = "/home/forum/" + name + tempFileName;//新生成的图片
-        String imgFilePath = "D:/Workspace-STS4/springboot-community/src/main/resources/templates/" + name + tempFileName;//新生成的图片
+        String imgFilePath = "/home/forum/" + name + tempFileName;//新生成的图片
+        //String imgFilePath = "D:/Workspace-STS4/springboot-community/src/main/resources/templates/" + name + tempFileName;//新生成的图片
         //Base64 decoder = new Base64();
         try {
             //Base64解码
@@ -140,8 +140,8 @@ public class Util implements ApplicationListener<WebServerInitializedEvent> {
 
     public static final void deleteFile(String path) {
         String[] splits = path.split(",");
-//        String filePath = "/home/forum/";
-        String filePath = "D:/Workspace-STS4/springboot-community/src/main/resources/templates/";
+        String filePath = "/home/forum/";
+        //String filePath = "D:/Workspace-STS4/springboot-community/src/main/resources/templates/";
         for (String split : splits) {
             String sub = split.substring(split.lastIndexOf("/") + 1);
             File file = new File(filePath + sub);
@@ -162,9 +162,9 @@ public class Util implements ApplicationListener<WebServerInitializedEvent> {
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
-        return "http://192.168.23.1/";
+        //return "http://192.168.23.1/";
         // return "http://"+address.getHostAddress() + ":" + serverPort + "/";
-//        return "http://111.229.39.131/";
+        return "http://134.175.161.141/";
     }
 
     @Override

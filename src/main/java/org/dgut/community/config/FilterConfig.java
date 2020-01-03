@@ -1,6 +1,7 @@
 package org.dgut.community.config;
 
 import org.dgut.community.filter.CorsFilter;
+import org.dgut.community.filter.NewsFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,5 +22,13 @@ public class FilterConfig {
         registrationBean.setOrder(FilterRegistrationBean.HIGHEST_PRECEDENCE);
 
         return registrationBean;
+    }
+    @Bean
+    public FilterRegistrationBean newsFilterBean() {
+        FilterRegistrationBean registration = new FilterRegistrationBean();
+        registration.setFilter(new NewsFilter());
+        registration.addUrlPatterns("/News/*");
+        registration.setOrder(2);
+        return registration;
     }
 }
